@@ -1,36 +1,63 @@
-# Nesta CMS App Template
+# Run locally
 
-See an example of this template and the bundled [clean theme](https://github.com/rwdaigle/nesta-theme-clean) running on Heroku at [http://nesta-app-template.herokuapp.com/](http://nesta-app-template.herokuapp.com/).
-
-![App template screenshote](http://f.cl.ly/items/181g441O352Z2M0M1S2J/Screen%20shot%202012-02-20%20at%204.36.37%20PM.png)
-
-See this blog post for full background, installation and usage details: [http://ryandaigle.com/a/deploying-nesta-cms-blog-heroku-cedar-pygments-syntax-highlighting](http://ryandaigle.com/a/deploying-nesta-cms-blog-heroku-cedar-pygments-syntax-highlighting)
-
-## Run locally
-
-Fork this repo on GitHub and clone locally to get the source on your local environment. Then run:
-
-```term
-$ ./bootstrap.sh
-
+```
+$ bundle
 $ foreman start
-14:25:47 web.1     | started with pid 59647
+```
+Open your browser to [http://localhost:5000](http://localhost:5000)
+
+
+
+# Writing an Article
+Content goes in ./content/pages/
+
+my-great-article.haml | mdown | textile
+
+
+## Article Images
+
+Images for your Article go in ./content/attachments/my-great-article/
+
+They are accessed in your Article like this:
+
+```
+<img src="/attachments/my-great-article/screenshot.jpg" alt="Screenshot">
 ```
 
-Open your browser to [http://localhost:5000](http://localhost:5000) to see the site running locally with default configuration values.
+## Syntax Highlighting
 
-## Deploying
+Plugin uses 'pygments'. It goes through each article before displaying them and wraps each code line with a span tag. All you need to do is wrap your snippet in a 'pre' tag with a 'lang' attribute and a 'code' tag.
 
-Assuming you have a Heroku account and have successfully installed the [Heroku Toolbelt](http://toolbelt.heroku.com) you can use [this script](https://raw.github.com/rwdaigle/nesta-app-template/master/deploy.sh) to quickly deploy the site to Heroku, install any dependencies and setup the appropriate configuration.
+Haml:
 
-**The site will _not_ incur any charges on Heroku and does not use `sudo`. Please review the [script source](https://raw.github.com/rwdaigle/nesta-app-template/master/deploy.sh) before executing.**
-
-```term
-$ ./deploy.sh
+```
+%pre(lang="objective-c")
+  %code
+    :plain
+      -(void) ballinMethod;
 ```
 
-## Next
 
-Once the app is running view the [Getting Started with the Nesta CMS App Template](http://nesta-app-template.herokuapp.com/welcome) entry to see how to customize, update and maintain the site.
+# Viewing Your Article
 
-![Getting started](http://f.cl.ly/items/2q3X3J3T0M2D1f372f1V/Screen%20shot%202012-02-20%20at%204.38.39%20PM.png)
+Open your browser to [http://localhost:5000/my-great-article](http://localhost:5000/my-great-article)
+
+
+
+# Deploying
+
+git add
+
+git ci -m "My Great Article"
+
+./deploy.sh
+
+
+
+## Config
+
+Config is in .env
+
+Theme CSS: ./themes/edgecase/views/master.sass
+
+Theme Public directory: ./themes/edgecase/public/edgecase

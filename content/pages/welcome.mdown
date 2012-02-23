@@ -57,16 +57,6 @@ $ git push heroku master
 
 Please see Nesta CMS's [instructions for writing articles](http://nestacms.com/docs/creating-content/pages) to add pages and new posts to your site.
 
-## Updates
-
-Since your site is a fork of the app template any updates to either the theme or the template itself can be easily merged into your site. The template ships with an update script that does this automatically. Execute the following starting in your site's local root directory:
-
-<pre lang="bash"><code>
-$ ./update.sh
-</code></pre>
-
-All the script does is pull in the latest changes to an `upstream` branch and rebase against it. It commits any local changes first to minimize conflicts. If you're comfortable managing this process yourself please feel free to do so as the script is provided for convenience only.
-
 ## Syntax highlighting
 
 The "clean" theme supports syntax highlighting with [Pygments](http://pygments.org/). Here are some examples (view the [source of the file](https://raw.github.com/rwdaigle/nesta-app-template/master/content/pages/welcome.mdown) to see Markdown syntax)

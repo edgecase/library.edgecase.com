@@ -1,9 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'compass'
 
 Bundler.require(:default, ENV['RACK_ENV'] || 'development')
 require 'rack/contrib'
-require 'newrelic_rpm'
 
 unless ENV['RACK_ENV'] == 'production'
   use Rack::ShowExceptions
