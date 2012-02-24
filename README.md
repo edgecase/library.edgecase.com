@@ -31,8 +31,8 @@ Plugin uses 'pygments'. It goes through each article before displaying them and 
 Haml:
 
 ```
-%pre(lang="objective-c")
-  %code
+%pre
+  %code(lang="objective-c")
     :plain
       -(void) ballinMethod;
 ```
