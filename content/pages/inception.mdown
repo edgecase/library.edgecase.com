@@ -1,8 +1,8 @@
-Title: Inception
+Title: Getting off on the Right Foot - Project Inceptions
 Date: 24 Feb 2012
 Author: Mike Doel
-Categories: Inception
-Keywords: inception
+Categories: Agile Practices
+Keywords: inception, agile
 
 ## Getting off on the Right Foot - Project Inceptions
 
