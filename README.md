@@ -13,6 +13,13 @@ Content goes in ./content/pages/
 
 my-great-article.haml | mdown | textile
 
+Required meta data at the top of your document:
+Title: My Great Article
+Date: 18 May 2012
+Author: Your name
+Categories: JavaScript
+Keywords: javascript, ember, mvc, stuff, junk
+
 
 ## Article Images
 
