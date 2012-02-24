@@ -15,12 +15,16 @@ my-great-article.haml | mdown | textile
 
 ## Required Meta Data
 
-At the top of your document:
+At the top of your document (see other articles for examples):
 
 Title: My Great Article
+
 Date: 18 May 2012
+
 Author: Your name
+
 Categories: JavaScript
+
 Keywords: javascript, ember, mvc, stuff, junk
 
 
