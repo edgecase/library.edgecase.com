@@ -1,0 +1,40 @@
+Title: ActiveModel Lint Test for RSpec
+Date: 30 Oct 2010
+Author: Mike Enriquez
+Categories: Rails
+Keywords: ruby, rails, testing, rspec, activemodel
+
+%p ActiveModel comes with a set of Test::Unit tests that you can run against your model to ensure that it is compliant with the ActiveModel API. We're using RSpec in our project and didn't want to get Test::Unit setup just for these tests, so we found a way to run them with RSpec.
+
+%pre
+  %code(lang="ruby")
+    :plain
+      # spec/support/active_model_lint.rb
+      # adapted from rspec-rails:
+      http://github.com/rspec/rspec-rails/blob/master/spec/rspec/rails/mocks/mock_model_spec.rb
+
+      shared_examples_for "ActiveModel" do
+        include ActiveModel::Lint::Tests
+
+        # to_s is to support ruby-1.9
+        ActiveModel::Lint::Tests.public_instance_methods.map{|m| m.to_s}.grep(/^test/).each do |m|
+          example m.gsub('_',' ') do
+            send m
+          end
+        end
+
+        def model
+          subject
+        end
+      end
+
+%p This defines a shared example and magically takes the lint tests and creates RSpec examples with them. The lint tests look for a model method, which we define to return the subject. Below is an example of how to use the shared example:
+
+%pre
+  %code(lang="ruby")
+    :plain
+      describe MyActiveModelClass do
+        it_should_behave_like "ActiveModel"
+      end
+
+%p The lint tests simply check if you have the right methods defined; it is up to you to make sure the behavior of those methods are correct. The <a href="http://github.com/rails/rails/blob/master/activemodel/lib/active_model/lint.rb">source for the lint test</a> can give you some insight on how to do this.
