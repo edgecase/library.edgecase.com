@@ -1,3 +1,9 @@
+Title: Inception
+Date: 24 Feb 2012
+Author: Mike Doel
+Categories: Inception
+Keywords: inception
+
 ## Getting off on the Right Foot - Project Inceptions
 
 At EdgeCase, we've been in the business of building software for our clients for
