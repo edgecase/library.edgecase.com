@@ -19,7 +19,7 @@
         %a.home_link(href='/') The EdgeCase Library
         %a#need_development(href='http://edgecase.com')
           Need Development? Check us out!
-        .span-2
+        .span-2.last
           %h1 Recent Entries
           - latest_articles(4).each do |article|
             %a.span-1(href="#{article.abspath}")= article.title || article.heading
