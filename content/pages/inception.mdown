@@ -4,8 +4,6 @@ Author: Mike Doel
 Categories: Agile Practices
 Keywords: inception, agile
 
-## Getting off on the Right Foot - Project Inceptions
-
 At EdgeCase, we've been in the business of building software for our clients for
 many years.  In that time, we've come to realize two truisms about virtually
 every project:
@@ -19,7 +17,7 @@ Our response has been to develop a project inception process that we use when we
 first engage a client.  In this article, I'll describe to you what it is
 that we do, why we do it, and some of the lessons we've learned along the way.
 
-### The Motivation
+## The Motivation
 The goal of the inception is to educate both the client and us.  We frequently
 find that clients come to us believing they fully understand the vision for
 the product to be built.  And while they are undoubtedly better prepared for
@@ -33,7 +31,7 @@ constraints, etc.  The inception offers us the perfect opportunity to sprint up 
 curve before we need to start applying that knowledge on practical problems.
 
 
-### The Agenda
+## The Agenda
 
 Before stating what an inception *is*, let me clear up something it *is not* - an
 Iteration Zero.  Google for that phrase and you'll find definitions with subtle
@@ -96,7 +94,7 @@ exhausted but in possession of a *much* better understanding of the
 what is to be built and how the project will be run.
 
 
-### The Location
+## The Location
 
 We're happy to run inceptions either in our office or at the client site.
 Which is best is largely a function of the client.  If they are capable
@@ -110,7 +108,7 @@ distractions while on site however.  In such cases, it's better to have the
 inception back at our office where they can fully engage in the discussions.
 
 
-### The Actors
+## The Actors
 
 Getting the right people in the room for an inception is the single most
 important factor in determining whether or not it will succeed.  Miss out on
@@ -135,7 +133,7 @@ the right foot is likely to be one who won't be available to make the
 decisions necessary to keep the project running smoothly once it is
 running later.
 
-### The Learnings
+## The Learnings
 
 Here a couple of tips we've learned along the way to make your inceptions run
 smoother:
@@ -153,7 +151,7 @@ smoother:
   client, this is likely a new process.  They want to know things like
   "when do we break for lunch?" and "how long does this activity last?".
 
-### Conclusion
+## Conclusion
 
 Like anything, running an inception is a continual learning experience.  Every
 time we've participated in one, we've walked away with one or more new "aha"
@@ -173,7 +171,7 @@ I hope you've found this overview of the inception process helpful.  Please
 send us feedback on what's working well for you and over time, we'll all begin
 to erase our doubts.
 
-### Resources
+## Resources
 
 If you want to learn more about the inception process, here are two good
 resources to consult:
