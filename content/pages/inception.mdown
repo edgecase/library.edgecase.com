@@ -1,0 +1,181 @@
+## Getting off on the Right Foot - Project Inceptions
+
+At EdgeCase, we've been in the business of building software for our clients for
+many years.  In that time, we've come to realize two truisms about virtually
+every project:
+
+1. No matter how much thought a business owner has put into their concept of
+   what is to be built, they always learn something when they explain it to
+   the people who will need to execute on their vision.
+2. A project that starts poorly will have a difficult time getting back on track.
+
+Our response has been to develop a project inception process that we use when we
+first engage a client.  In this article, I'll describe to you what it is
+that we do, why we do it, and some of the lessons we've learned along the way.
+
+### The Motivation
+The goal of the inception is to educate both the client and us.  We frequently
+find that clients come to us believing they fully understand the vision for
+the product to be built.  And while they are undoubtedly better prepared for
+the project than us initially, we've found that the questions asked during
+the inception help them uncover issues not previously considered.
+
+Even in cases where the client is confident in their understanding of what
+they want, the act of going through an inception is valuable for us.  In a
+typical project, we start with many unknowns - domain terms, requirements, stakeholders,
+constraints, etc.  The inception offers us the perfect opportunity to sprint up the learning
+curve before we need to start applying that knowledge on practical problems.
+
+
+### The Agenda
+
+Before stating what an inception *is*, let me clear up something it *is not* - an
+Iteration Zero.  Google for that phrase and you'll find definitions with subtle
+differences, but most of them describe an initial iteration where the
+focus is developing project infrastructure and tools rather than user features.
+At EdgeCase, we have tried this approach but found it lacking.  We typically
+work in two week iterations.  Our experience has been that
+we don't need anywhere close to two weeks for these steps - especially given the
+rapid evolution of things like automated git-based deployment
+solutions (e.g. heroku), authentication libraries (e.g. omniauth), and other
+frameworks and tools that make it a snap to get a project's technical core in place.
+We want and expect to be delivering real customer value in our first iteration, but
+we need to make sure we're delivering the right value and working on the right
+set of things first before we start.
+
+Our inceptions are made up of three days of intense effort.  The first day is
+all about capturing the vision for the product.  Some of the key exercises used to
+do this are:
+
+* Identification of the 4 C's - Concepts, Characteristics, Challenges, and
+  Characters - that define the system, yielding a mind map of the problem space.  This is a brainstorming exercise 
+  in which we gather ideas without trying to prematurely judge whether they will be implemented.
+* Documentation of shared domain language.  Agreeing to a common set of terms early
+  significantly improves communication within the team.
+* Generate personas representing typical users of the system - what motivates them and
+  what do they need to accomplish?
+* Craft an elevator pitch that describes the product or system in two sentences.
+
+On the second day of the inception, we begin the process of defining a Minimally
+Viable Product (MVP).  If you've not read Eric Ries's
+[The Lean Startup](http://www.theleanstartup.com), an MVP consists of the minimum
+set of features you can build which allow you to learn rapidly whether or not
+you are building the right thing.  We frequently are able to show customers that we
+can deliver real value with a smaller feature set than they originally planned.  This set of features
+is articulated through a process that consists of:
+
+* Specifying the target audience for the MVP which can be counted on to help
+  you learn.
+* Creating a high level in/out list of feature areas for the MVP
+* Building a [story map](http://www.agileproductdesign.com/blog/the_new_backlog.html)
+  of user stories for all of the "in" features and characterizing each of
+  those stories as in or out.
+* Mapping out wireframes for the stories that make up the MVP.
+
+Throughout the first and second day, we use a scratch pad area (stickies on a wall)
+to capture thoughts and issues we need to circle back on later.  Some of these
+will be unknowns (technical or otherwise) uncovered during the course of the first
+two days that need rapid investigation.  On the third day, we reserve the
+first half of the day for our team to work independently from the client on
+closing some of these questions.  A couple hours spiking a technical
+solution is often just enough to understand whether or not an approach is feasible.
+
+The remaining part of the third day is essentially close-out.  We talk about
+what we learned from the spikes, consider acceptance criteria for key user stories,
+and discuss project management issues (e.g. roles, meetings, tools, etc.)
+that will be relevant if the project moves forward beyond the inception.
+
+After three days of this, I guarantee you that everyone involved is
+exhausted but in possession of a *much* better understanding of the
+what is to be built and how the project will be run.
+
+
+### The Location
+
+We're happy to run inceptions either in our office or at the client site.
+Which is best is largely a function of the client.  If they are capable
+of being present and focused on the incepetion, then holding it there 
+may offer a tremendous opportunity for us to get visibility to the deployment
+environment and talk to real users who can verify or refute the
+characteristics baked into the persona exercise.
+
+However, not every client has the discipline to stay in the inception and block out the
+distractions while on site however.  In such cases, it's better to have the
+inception back at our office where they can fully engage in the discussions.
+
+
+### The Actors
+
+Getting the right people in the room for an inception is the single most
+important factor in determining whether or not it will succeed.  Miss out on
+an important stakeholder and you risk having wasted your time when that
+stakeholder later challenges decisions made in their absence.  Have too many
+people in the room and you make it too easy for people to mentally check out
+and not fully contribute.
+
+We aim to have two people from EdgeCase - someone with project management skills
+and someone with development skills - and two to three key client stakeholders.
+The client participants need to:
+
+* have decision making authority for the project
+* be intimately familiar with the needs of customers
+* be capable of giving the inception their full attention
+
+The last of those is especially critical.  You'll find clients who believe
+themselves to be so busy that they can't possibly spend two to three days of
+uninterrupted time in the inception.  This is a red flag for the project.  A
+business owner who can't spend the time neccesary to start a project off on
+the right foot is likely to be one who won't be available to make the
+decisions necessary to keep the project running smoothly once it is
+running later.
+
+### The Learnings
+
+Here a couple of tips we've learned along the way to make your inceptions run
+smoother:
+
+* Get people up and moving from time to time.  We structure several of the
+  exercises so that it requires people to get out of their chair.
+  The kinetic activity stimulates the brain and brings energy back into the
+  room.
+* Use high quality materials.  During the course of an inception, we use
+  flip charts, stickies, and a whiteboard extensively.  Before the start, we
+  make sure we've got pens that are not out of ink and are visible from across
+  the room.
+* Make sure the client has good visibility into the agenda.  Even though we
+  are intimitely familiar with the agenda and flow of the inception, for the
+  client, this is likely a new process.  They want to know things like
+  "when do we break for lunch?" and "how long does this activity last?".
+
+### Conclusion
+
+Like anything, running an inception is a continual learning experience.  Every
+time we've participated in one, we've walked away with one or more new "aha"
+realizations that make the next one better.  In a sense, the discovery of what
+makes a for a good inception is much like what makes for a good product
+idea - being humble and being prepared to constantly learn and improve.  To
+quote Francis Bacon:
+
+    If a man will begin with certainties, he shall end in doubts, but if he will
+    content to begin with doubts, he shall end in certainties.
+
+We are not yet to the point where we can say we have "ended in certainties", but
+our insight on starting projects off on the right foot has most certainly
+grown.  The payoff has been better projects that follow on from those inceptions.
+
+I hope you've found this overview of the inception process helpful.  Please
+send us feedback on what's working well for you and over time, we'll all begin
+to erase our doubts.
+
+### Resources
+
+If you want to learn more about the inception process, here are two good
+resources to consult:
+
+* [The Agile Samurai](http://pragprog.com/book/jtrap/the-agile-samurai) by Jonathan
+  Rasmusson has several chapters describing project inception within the context
+  of agile practices.
+* [Gamestorming](http://www.amazon.com/Gamestorming-Innovators-Rulebreakers-Changemakers-ebook/dp/B003XDUCLS)
+  by Dave Gray, Sunni Brown, and James Macanufo is chock full of exercises you
+  can use in your inceptions.  We're using many of them including 4C's, Elevator
+  Pitch, Pre-Mortem in ours.
