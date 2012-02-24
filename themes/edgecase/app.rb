@@ -38,5 +38,13 @@ module Nesta
       end
       haml(toc_template, :layout => false, :locals => { :toc_headers => toc_headers })
     end
+
+    def author_biography(name = nil)
+      name ||= @page.metadata('author')
+      if name
+        template = name.downcase.gsub(/\W+/, '_').to_sym
+        haml template, :layout => false
+      end
+    end
   end
 end

@@ -1,9 +1,11 @@
 .article
 
+  = @page.title
   .date= format_date(@page.date) if @page.date
+  = author_biography
   .clear
   .toc= toc(@page)
-  
+
   .body
     ~ @page.to_html(self)
 
