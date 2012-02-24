@@ -8,19 +8,13 @@ $ec-grey-type  : #666
 $din           : 'ff-din-web-pro',    helvetica, arial, sans-serif
 $din-condensed : 'din-condensed-web', helvetica, arial, sans-serif
 $skolar        : 'skolar', georgia, serif
+$monospaced    : 'Andale Mono', 'Monaco', 'Menlo', 'Courier', monospace
 
 body
   font-family : helvetica, arial, sans-serif
   font-size   : 62.5%
 
-body.home header
-  height     : 580px
-  background : #d86c2d url(/edgecase/images/header_background.jpg)
-
-  .wrapper
-    overflow : hidden
-    height   : 100%
-
+header
   #need_development
     position        : absolute
     top             : 0
@@ -36,13 +30,25 @@ body.home header
     text-transform  : uppercase
     background      : url(/edgecase/images/need_development.png)
 
-  p
+  .home_link
     position    : absolute
+    display     : block
+    text-indent : -999em
+
+
+body.home header
+  height     : 580px
+  background : #d86c2d url(/edgecase/images/header_background.jpg)
+
+  .wrapper
+    overflow : hidden
+    height   : 100%
+
+  .home_link
     top         : 130px
     left        : 0
     width       : 424px
     height      : 319px
-    text-indent : -999em
     background  : url(/edgecase/images/header_text.png)
 
   .span-2
@@ -74,6 +80,45 @@ body.home header
 
       &:active
         top: 1px
+
+.category_listing
+  padding-top: 70px
+
+  h1
+    margin-bottom : 13px
+    border-top    : 3px solid $ec-orange
+    padding-top   : 3px
+    color         : $ec-orange
+    font-family   : $din-condensed
+    font-size     : 2.5em
+
+  ul
+    height: 130px
+
+  a
+    overflow        : hidden
+    display         : block
+    margin-bottom   : 6px
+    color           : $ec-grey-type
+    font-family     : $din
+    font-size       : 1.6em
+    text-decoration : none
+    text-overflow   : ellipsis
+    white-space     : nowrap
+
+body.page header
+  height     : 70px
+  background : #ccc url(/edgecase/images/whitey.png)
+
+  .home_link
+    top         : 25px
+    left        : 0
+    width       : 222px
+    height      : 20px
+    background  : url(/edgecase/images/header_text_small.png)
+
+  .span-2
+    display: none
 
 h1
   text-transform: uppercase
@@ -107,6 +152,53 @@ body.page #what_it_is_all_about
     color       : #fff
     font-family : $din
     font-size   : 1.6em
+
+.article
+  padding-top: 70px
+
+  .meta
+    border-top: 5px solid $ec-orange
+    padding-top: 12px
+
+    h1
+      margin-bottom : 50px
+      color         : $ec-orange
+      font-family   : $din-condensed
+      font-size     : 4.0em
+
+    h2
+      margin-bottom : 50px
+      border-top    : 3px solid #b3b3b3
+      padding-top   : 8px
+      color         : $ec-orange
+      font-family   : $din
+      font-size     : 1.4em
+
+      span
+        margin-right : 10px
+        color        : $ec-grey-type
+
+  .body
+    border-top  : 5px solid #b3b3b3
+    padding-top : 12px
+    color       : $ec-grey-type
+    font-family : $din
+
+    a
+      color: $ec-orange
+
+    h2
+      margin-bottom : 1.25em
+      font-size     : 2.1em
+
+    p
+      margin-bottom : 1.75em
+      font-size     : 1.6em
+      line-height   : 156%
+
+    pre
+      font-family : $monospaced
+      font-size   : 1.4em
 
 
 footer

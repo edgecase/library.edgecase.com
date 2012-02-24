@@ -24,6 +24,14 @@ module Nesta
       set :sass, Compass.sass_engine_options
     end
 
+    before do
+      @pages      = Page.find_all
+      @categories = @pages.map do |page|
+        page.metadata('categories')
+      end
+      @categories.uniq!
+    end
+
     # Support pygments syntax highlighting w/ <pre><code lang="ruby"></code></pre> blocks
     use Rack::Pygmoku, { :lexer_attr => 'lang' }
 
@@ -37,6 +45,16 @@ module Nesta
         mappings
       end
       haml(toc_template, :layout => false, :locals => { :toc_headers => toc_headers })
+    end
+
+    def group_by_category
+      cats = {}
+      @categories.each do |category|
+        next if category.nil?
+        cats[category] = @pages.select {|page| page.metadata('categories') == category }
+      end
+
+      cats
     end
 
     def author_biography(name = nil)

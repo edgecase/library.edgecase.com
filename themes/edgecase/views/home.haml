@@ -1,1 +1,11 @@
-~ @page.to_html(self)
+//~ @page.to_html(self)
+.category_listing
+  .span-4
+    - group_by_category.each do |k, v|
+      .span-1
+        %h1= k
+        %ul
+          - v.each do |p|
+            %li
+              - link = p.permalink
+              %a(href=link)= p.metadata('title')

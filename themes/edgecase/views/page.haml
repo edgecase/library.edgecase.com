@@ -1,18 +1,11 @@
 .article
+  .meta.span-1
+    %h1= @page.title
+    - if @page.date
+      %h2= "<span>Posted</span> #{format_date(@page.date)}"
+    - if @page.metadata('author')
+      %h2= "<span>Author</span> #{@page.metadata('author')}"
 
-  = @page.title
-  .date= format_date(@page.date) if @page.date
-  = author_biography
-  .clear
-  .toc= toc(@page)
-
-  .body
+  .body.span-3.last
     ~ @page.to_html(self)
-
-  .author
-    %a(href="http://twitter.com/#!/#{ENV['NESTA_AUTHOR__TWITTER']}")
-      = "- #{Nesta::Config.author['name']}"
-      %img(src="/edgecase/images/twitter-bird.png")
-  .clear
-
-  .comments= haml :comments, :layout => false
+    .comments= haml :comments, :layout => false
