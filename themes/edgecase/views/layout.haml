@@ -16,16 +16,18 @@
   %body(class="#{@page ? @page.template : 'page'}")
     %header
       .wrapper
-        The EdgeCase Library
+        %p The EdgeCase Library
+        %a#need_development(href='http://edgecase.com')
+          Need Development? Check us out!
         .span-2
           %h1 Recent Entries
           - latest_articles(4).each do |article|
-            .span-1
-              %a(href="#{article.abspath}")= article.title || article.heading
+            %a.span-1(href="#{article.abspath}")= article.title || article.heading
 
     #what_it_is_all_about
-      %h1 What It's All About
-      %p The EdgeCase Library is a place for articles and content to be shared and passed on the range from beginner to mack daddy baller.
+      .wrapper
+        %h1 What It's All About
+        %p The EdgeCase Library is a place for articles and content to be shared and passed on the range from beginner to mack daddy baller.
 
     .wrapper
       = yield

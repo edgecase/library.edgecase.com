@@ -13,18 +13,100 @@ body
   font-family : helvetica, arial, sans-serif
   font-size   : 62.5%
 
-header
+body.home header
   height     : 580px
   background : #d86c2d url(/edgecase/images/header_background.jpg)
+
+  .wrapper
+    overflow : hidden
+    height   : 100%
+
+  #need_development
+    position        : absolute
+    top             : 0
+    right           : 0
+    width           : 241px
+    height          : 31px
+    color           : $ec-orange
+    font-family     : $din-condensed
+    font-size       : 1.6em
+    line-height     : 31px
+    text-align      : center
+    text-decoration : none
+    text-transform  : uppercase
+    background      : url(/edgecase/images/need_development.png)
+
+  p
+    position    : absolute
+    top         : 130px
+    left        : 0
+    width       : 424px
+    height      : 319px
+    text-indent : -999em
+    background  : url(/edgecase/images/header_text.png)
+
+  .span-2
+    position   : absolute
+    top        : 359px
+    right      : -30px
+    width      : 544px
+    background : url(/edgecase/images/header_borders.png) no-repeat
+
+    h1
+      margin-bottom : 17px
+      padding-top   : 8px
+      color         : #fff
+      font-family   : $din-condensed
+      font-size     : 2.5em
+
+    a
+      overflow        : hidden
+      position        : relative
+      display         : block
+      margin-bottom   : 5px
+      padding         : 2px 0
+      color           : #fff
+      font-family     : $skolar
+      font-size       : 1.5em
+      text-decoration : none
+      text-overflow   : ellipsis
+      white-space     : nowrap
+
+      &:active
+        top: 1px
 
 h1
   text-transform: uppercase
 
 
-#what_it_is_all_about
-  border-top: 5px solid #fff
-  background: #adadad
+body.page #what_it_is_all_about
+  display: none
 
+#what_it_is_all_about
+  position   : relative
+  border-top : 5px solid #fff
+  padding    : 38px
+  color      : #fff
+  background : #adadad
+
+  h1
+    position    : absolute
+    top         : -57px
+    left        : 50%
+    width       : 171px
+    height      : 31px
+    margin-left : -85px
+    color       : $ec-grey-type
+    font-family : $skolar
+    font-size   : 1.2em
+    line-height : 31px
+    text-align  : center
+    background  : url(/edgecase/images/about_background.png)
+
+  p
+    color       : #fff
+    font-family : $din
+    font-size   : 1.6em
 
 
 footer

@@ -1,0 +1,15 @@
+Title: Obtiva Craftsman Swap, Day Five
+Date: 07 Aug 2010
+Author: Adam McCrea
+Categories: Craftsmanship
+Keywords: craftsman
+
+%p I'm sitting in Chicago Midway Airport waiting for my flight home after an amazing week. Today was a very exciting day at work because I got to pair with Ryan Briones and we had the opportunity to hack on open source. Initially we were going to write a MongoDB-backed AB testing tool or fork Vanity to use Mongo, until we discovered Vanity already supports it. Damn them for being so awesome and shooting down our idea!
+
+%p Instead, we decided to write a small Rails plugin for easily using Rails-3-style unobtrusive JavaScript in Rails 2 applications. This is an approach I've been pushing for in my <a href="http://www.slideshare.net/adamlogic/jquery-and-rails-sitting-in-a-tree">jQuery and Rails, Sitting in a Tree</a> talk that I've given a few times, but I figure a small plugin to package up the ideas would make them even more accessible. We thought this would take no time at all, but it turns out overriding Rails' built-in link_to helper is really hard. Since link_to can optionally be called with a block, we had to accept a couple different signatures. No big deal, though. We can pass the block along to Rails' link_to without a problem. The problem came when Rails' link_to makes a recursive call which hits our overridden function. For some reason that call still thinks a block has been given, even though the block was not passed along.
+
+%p We were stuck for a while, and our day ended early so we could have a retrospective on the swap and so I could make my flight. I plan to finish up the plugin, though, hopefully in time to give the talk again at CRB this month.
+
+%p At the retrospective we discussed what we liked about the swap and what could use improvement. That's probably worthy of another post, but I won't get too in depth here. It was a great discussion, though, and I certainly feel confident that these swaps will continue to be more and more valuable.
+
+%p I can't thank Obtiva and EdgeCase enough for this opportunity. Not only did I get to learn from some great developers and see how a peer company is run, but I also experienced an amazing week in a great new city. Special thanks to Ryan and Chad for taking the time to show me around. You guys rock.

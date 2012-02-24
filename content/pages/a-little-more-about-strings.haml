@@ -1,0 +1,63 @@
+Title: A Little More About Strings
+Date: 31 Oct 2010
+Author: Leon Gersing
+Categories: Ruby
+Keywords: ruby
+
+%p When I have an opportunity to present the Ruby Koans to an audience, some of the students will take the opportunity to cheat a bit and ask for a direct answer to some of the "why?" moments offered in the comments of select Koans. To level the playing field for the curious out there who may not be able to make it to a session personally, here's an explanation to the question posed in the <a href="http://github.com/edgecase/ruby_koans/blob/master/koans/about_strings.rb#L97">"About Strings"</a> Koan.
+%p From the koan comment:
+%blockquote
+  %p Think about it:
+  %p Ruby programmers tend to favor the shovel operator (&lt;&lt;) over the plus equals operator (+=) when building up strings. Why?
+
+%p The answer lies in how the Ruby interpreter deals with string concatenation. Even though the result of the following 2 lines of code is the same, the approach that the Ruby interpreter takes is different.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      "Hello" += ", World!"
+
+      "Hello" &lt;&lt; ", World!"
+
+
+%p In the first example, Ruby is taking this line to mean Take string 'Hello' and string ', World!', add them together and assign the results to a new string all together that represents the result.
+%p Whereas the second string says: Take string 'Hello' and rather than create a new string, just add the contents of the string ', World!' to the end of it.
+%p This is not particularly interesting unless you're starting to see performance problems based on a choice that you've made to, say, use the += in a series of string manipulation routines. Let's take a look at the performance numbers of doing the exact same routines just substituting += for <<. Open up irb and paste the following 2 lines into the buffer. Then wait for the results... or cheat and continue reading!
+
+%pre(lang="ruby")
+  %code
+    :plain
+      require 'benchmark'
+
+      DAY   = 0
+      NIGHT = 100000
+      Benchmark.bmbm do |mark|
+        mark.report("the '&lt;&lt;' koan: reuse the string, allow it to grow... \n\t"   ){
+          (DAY..NIGHT).inject(""){|om,i| om &lt;&lt; "OM NOM NOM NOM\n"}
+        }
+        mark.report("the '+=' koan: create new string, allow them to grow... \n\t"){
+          (DAY..NIGHT).inject(""){|om,i| om += "OM NOM NOM NOM\n"}
+        }
+      end
+
+%p Here are my results and keep in mind the exact numbers will vary.
+
+%pre
+  :plain
+    Rehearsal ------------------------------------------------
+    the &lt;&lt; koan: resue the string, allow it to grow...
+    0.120000   0.010000   0.130000 (  0.115071)
+    the += koan: create new string, allow them to grow...
+    88.810000  18.830000 107.640000 (108.567973)
+    ---------------------------------------------------------- total: 107.770000sec
+
+    user     system      total        real
+    the &lt;&lt; koan: resue the string, allow it to grow...
+    0.100000   0.000000   0.100000 (  0.109513)
+    the += koan: create new string, allow them to grow...
+    88.760000  18.830000 107.590000 (108.333785)
+
+
+%p Pretty cool stuff! The difference comes with the way that memory is managed in the C based versions of MRI (Matz' Ruby Interpreter). If you'll remember back or think of for the first time to the days of memory management there are 2 places where we can store our data in memory. On the stack or on the heap. In ruby, Strings are always allocated as "Reference Types" which loosely means that they store their values on the heap. Ruby's garbage collector (again, there are variations here depending on MRI versions) is pretty lazy so by constantly allocating memory without reclaiming it using the += operator causes unused memory to collect and slow down processing. Whereas the &lt;&lt; example is simply mutating the string until it is full at which time is gets another block from the heap to continue growing. The Reference counts stay small, the memory stays specific and we're only using what we need to perform the task at hand.
+
+%p So why would you use += rather than &lt;&lt; if it's soooooo much faster? Well, that's a another post for another day! Until then, just remember, even though there are many ways to accomplish the same task in Ruby, they are not all created equal. If you run into performance bottlenecks, sometimes just knowing what's happening behind the scenes can help you make better choices for your application.

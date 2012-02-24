@@ -1,0 +1,33 @@
+Title: Obtiva Craftsman Swap, Days Two and Three
+Date: 05 Aug 2010
+Author: Adam McCrea
+Categories: Craftsmanship
+Keywords: craftsman
+
+%p Yesterday was too action-packed to squeeze in a blog post, so I'm cheating with a combined post for days two and three.
+
+%p Yesterday I paired with Chad Pry again on the same marketplace application. We had to fix a but we introduced on day one (doh!), but after that we got started on a new feature. This was a much more standard Railsy feature than yesterday's JavaScript widget - just a page to view a list of ads for the prior week, split out by day. We TDD'd our way through it with RSpec and without too much trouble. One big win was realizing that our test were using factories that triggered geocoding, and we were able to drastically improve our test performance by mocking that out. What made the day really interesting for me, though, were the extracurricular activities - Geekfest lunch and Chicago Ruby.
+
+%p Every Tuesday, most Obtivians gather in the office at lunch for what they call Geekfest. Geekfest is the same idea as a Lunch & Learn, which we've done at EdgeCase at various times. Someone from the company picks a topic and presents on it, sharing knowledge and sparking a conversation. This takes about half the time (maybe less), and the rest is all conversation on the topic. The topic yesterday was user groups - how to build them, avoid conflicts with other groups, and encourage cross-pollination of members.
+
+%p The presentation and conversation that followed struck a chord with most everyone in the room. It certainly lacked focus, but that didn't seem to matter. The goal wasn't to have some actionable outcome, but just to share ideas, have some good conversation, and get people thinking about new things. There seemed to be a popular consensus that user group meeting conflicts should not be cause for concern. If Chicago has that many user groups, and that many active members who actually care about conflicts, it is simply an indicator of a thriving developer community.
+
+%p The real point of Geekfest, though, doesn't seem to be the content itself, but the bringing together of Obtivians. Obtiva developers are spread throughout the city at client sites, and it was really cool to see developers trickle in one-by-one as lunchtime approached. It's a chance to get to know each other and build camaraderie. I imagine this is a critical component of Obitva's culture, and it's something I want to emulate at EdgeCase.
+
+%p After work I had the opportunity to speak at ChicagoRuby. This group reminded me quite a bit of CRB in Columbus, but (unsurprisingly) larger. I gave the same jQuery and Rails talk I gave at Ruby Midwest, and it seemed to be well received. Aside from speaking way too fast, I felt good about the talk. Even better than the meeting itself were the drinks and conversation afterward (thanks, Obtiva!). I got home late and very tired, hence my combined post today.
+
+%p Today I got to pair with Noel Rappin and Jen Lindner. Actually, it was more tri-programming than pair programming. Jen is an apprentice currently being mentored by Noel, so they didn't want split apart. I hopped in to try to be helpful, but I felt kind of in the way for most of the day.
+
+%p We worked on an app that is being rewritten from .Net to Rails. It's actually one app within a suite of apps that will share ActiveRecord models. Our first task was to extract the models into a Rails engine gem that could be required by each of the applications. We used Jeweler to generate the gemspec for us and Bundler to grab the gem directly from Github. This part worked pretty seamlessly, but we hit a roadblock getting the application to recognize the models in the engine. Turns out that our gem needed a rails directly with an init.rb inside to get it working with Rails 2.
+
+%p The rest of the day was some basic CRUD to get registrations wired up. We TDD's outside-in starting with a Cucumber feature. This is definitely my preferred way to operate since it begins with what the user sees. The Cucumber feature was actually pulled directly from the acceptance criteria in the story, of which I'm also a big fan. After the Cucumber feature, we moved onto the controller spec.
+
+%p Controller spec?!! For a long time I've been in the camp of not seeing benefit of controller specs, but they actually brought to light many of our model dependencies (the model was already written). It took a while to satisfy all of the validations in our model and get the child objects created appropriately, and the controller spec certainly guided us through this process. It still didn't feel right, though. If we're testing model validations and dependencies, the spec should go on the model. This project is unique, though, in the sense that all of the models and their specs live in a separate gem. I tried not to throw too many monkey-wrenches, though, since I was already feeling intrusive to the mentoring session.
+
+%h2 Takeaways:
+
+%ul
+  %li Make sure external services (like geocoding) are mocked out in tests.
+  %li Bring back Lunch &amp; Learns at EdgeCase, even if we lack content (or willingness to present).
+  %li Making Rails engine gems work in Rails 2 requires a rails/init.rb.
+  %li Controller specs are still a code smell (flame away).

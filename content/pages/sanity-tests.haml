@@ -1,0 +1,53 @@
+Title: Sanity Tests
+Date: 10 Dec 2010
+Author: John Andrews
+Categories: Rails
+Keywords: ruby, rails, testing
+
+%p Imagine you are debugging some javascript in your application. You open up firebug and throw in some <code>console.debug()</code> calls in your code and find where the problem is. Now imagine that this is a "quick fix" for a production bug. You're eager to deploy the fix so you just test it out in Firefox and see that it works. Maybe you even write a unit test for it. All green. Let's go ahead and ship it.
+%p A couple of hours later you start getting email that your app isn't functioning properly in IE. Oops, someone forgot to remove their <code>console.debug()</code> calls...
+%p A similar situation has probably happened to most web developers at some point or other. It has bitten me more than once. The second time it happened I figured I should do something to prevent it from happening again. Sanity test to the rescue!
+
+%pre(lang="ruby")
+  %code
+    :plain
+      describe "Javascript files" do
+        it "should not include console logging statements" do
+          violations = `grep -r 'console\.' public/javascripts/*.js`
+          unless violations.empty?
+            flunk "Please remove console logging statements:\n\#{violations}"
+          end
+        end
+      end
+
+%p A sanity test is a quick test designed to indicate whether further testing is possible or reasonable. I also like to apply the term to tests that ensure that common mistakes are avoided and to enforce agreed-upon standards. Let me give you an example of the latter.
+%p We've decided on this particular Rails project that we want to have indexes on all foreign key columns. This is something that Rails does not take care of for you, and it is also something that is extremely easy to forget when creating a migration. So we added a sanity test.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      describe "Foreign key indexes" do
+        it "are present for all associations" do
+          EXCEPTIONS = %w[customer_id subscription_id]
+          schema = File.read(Rails.root.join('db', 'schema.rb'))
+          classes = Dir.glob(Rails.root.join('app', 'models', '**/*.rb')).each{ |f| require f }
+          missing_index = []
+          ActiveRecord::Base.send(:subclasses).each do |klass|
+            next unless klass.respond_to? :columns
+            foreign_keys = klass.columns.map(&:name).grep(/^\w+_id$/) - EXCEPTIONS
+            foreign_keys.each do |column_name|
+              if schema !~ /add_index .* "index_\#{klass.table_name}_on_\#{column_name}"/
+                missing_index << [klass.table_name, column_name]
+              end
+            end
+          end
+          if missing_index.any?
+            message = missing_index.map do |table, column|
+              "add_index :\#{table}, :\#{column}"
+            end
+            flunk "Foreign keys exist which have no matching index. Please add the following indexes:\n\#{message.join("\n")}\n"
+          end
+        end
+      end
+
+%p Now we make sure this sanity test gets run during our pre-commit suite. If we did forget to add an index our test spits out the ruby statements that will add it. Handy!

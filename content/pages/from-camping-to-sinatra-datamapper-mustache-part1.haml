@@ -1,0 +1,126 @@
+Title: From Camping to Sinatra + DataMapper + Mustache (part 1)
+Date: 29 Oct 2010
+Author: Ken Barker
+Categories: Sinatra
+Keywords: ruby, sinatra, datamapper, mustache
+
+%p A little over two years ago, I wrote a quick prototype application to help me manage tenants and properties for our residential real estate business. As the guys here at EdgeCase will tell you, I took it just far enough to solve my main pain point. It was definitely geared toward one user, one particular user. One man’s kludge hack is another man’s workaround.
+%p At that time, Camping was worth looking at as a quick prototyping framework. The functionality I needed came together fairly quickly, all together in one file hitting a sqlite3 database using Camping conventions at the time. Over time, I made a couple of tweaks to help me accomplish what I wanted to do. After using the app for a couple of months, it helped me answer the “Who owes us what?” and “Who’s late?” questions very well.
+%p In parts one and two of this article, I will dive into the process of porting the app from Camping to Sinatra + DataMapper + Mustache. In part three, I will make some summary conclusions.
+
+%h2 The Goal
+
+%p Why migrate the app? I decided to move this app to Sinatra et al. for a convergence of reasons.
+
+%ul
+  %li I had a challenging time getting the Camping rental app to run again after updating the Camping gem. The challenge came because I updated the gem one day and ran the rental app many days later. I sat down to use the app and kaboom! It isn’t production code and wasn’t deployed anywhere.
+  %li Camping - Lack of continued development… I suspect that Camping is still used by many and there may be a community behind it. For me, today (or even last year) it isn’t winning any mind share battles.
+  %li As a user, an idea for improving the app would come to mind. Not working with Camping on frequent basis made making these changes seem more difficult. Moving to a newer framework/platform in theory would make implementing these changes more exciting and worthwhile.
+  %li <a href="http://github.com/defunkt/mustache">Mustache</a>. I knew of Sinatra - other guys in the office had used it. I had heard of <a href="http://datamapper.org/">DataMapper</a> and had wanted to check it out. Mustache came along at just the right time for me. When Chris <a href="http://twitter.com/defunkt/statuses/4599412221">announced</a> it, the thought of porting the rental app over to Sinatra + DM + Mustache came immediately to mind.
+
+%p As the idea percolated, thankfully, Chris added a sample Sinatra + Mustache app to GitHub. No excuses now.
+
+%h2 The Action
+
+%p I made heavy use of two templates available on GitHub: defunkt’s own <a href="http://github.com/defunkt/mustache-sinatra-example">Mustache Sinatra Example</a> and zapnap’s <a href="http://github.com/zapnap/sinatra-template">Sinatra Template</a>. Zapnap’s template contains DataMapper, Rspec, and HAML ready to go. This may not be the correct or proper way, but I simply forked Chris’s repo and then created a branch in which to start playing around with Mustache.
+
+%p Mustache is “a framework-agnostic way to render logic-free views.” Along the lines of unobtrusive javascript, removing logic from our views should make that logic more easily testable and therefore easier to maintain. Mustache is inspired by Google’s <a href="http://code.google.com/p/google-ctemplate/">ctemplate</a>.
+
+%blockquote
+  %p CTemplate is a simple but powerful template language for C++. It emphasizes separating logic from presentation: it is impossible to embed application logic in this template language.
+
+%p If you agree with the sentiment about keeping logic out of your views, certainly using a template system that prevents logic will be very effective.
+
+%p After playing around with Mustache a bit, it was time to do something a bit more challenging. This is where DataMapper and zapnap’s Sinatra template came into the picture. As an experienced ActiveRecord user, I did my best to set aside my typical way of thinking about ORMs. First, add DataMapper and connect to my existing sqlite3 database.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      require 'dm-core'
+
+        DataMapper.setup( :default, "sqlite3://#{Dir.pwd}/db/slummer.db" )
+
+        repository(:default).adapter.resource_naming_convention = lambda do |value|
+          'slummer_' + Extlib::Inflection.pluralize(Extlib::Inflection.underscore(value)).gsub('/', '_')
+        end
+
+        class Tenant
+          include DataMapper::Resource
+
+          property :id,           Serial
+          property :name,         String
+          property :property,     String
+          property :notes,        Text
+          property :rent,         BigDecimal
+          property :late_fee,     BigDecimal
+          property :balance,      BigDecimal
+          property :created_at,   DateTime
+          property :updated_at,   DateTime
+          property :last_paid_at, DateTime
+        end
+
+%p DataMapper is highly flexible, allowing me to ‘factor’ out the slummer_ prefixes that Camping insisted on in the table names.
+%p Listing the tenants seemed the best first step.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      get '/tenants' do
+        mustache :tenants
+      end
+
+%p The simple ‘stache:
+
+
+%pre(lang="html")
+  %code
+    :plain
+      &lt;h1&gt;&lt;/h1&gt;
+      &lt;p&gt;&lt;/p&gt;
+
+%p The view:
+
+%pre(lang="ruby")
+  %code
+    :plain
+      class App
+        module Views
+          class Tenants < Mustache
+            def title
+              "The List of Tenants"
+            end
+
+            def content
+              Tenant.all.map{|ten| ten.name}.join(" - -- - ")
+            end
+          end
+        end
+      end
+
+%p So, you may be thinking, wow!! baby steps?!? Stay with me. At this point, I wanted to see data from my database rendered through Mustache and Sinatra to my browser. I had no idea how to pass a specific object through to the Mustache template. I also wasn’t yet familiar with what Mustache was expecting in order to produce a looping structure. Let’s tackle both of those now.
+%p Mustache loops between and when the tenants method returns a collection of objects. The collection (as of 0.4.0 or so) must be a collection of hashes with attributes as symbols for the keys.
+
+%pre(lang="html")
+  %code
+    :plain
+      &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+
+
+%pre(lang="ruby")
+  %code
+    :plain
+      def tenants
+        Tenant.all.map{|ten| {:name => ten.name}}
+      end
+
+%p Now for passing an instance to the view. Certainly I do want to view the details about a particular tenant. Wiring up the Sinatra routing to correctly pass an instance variable may be trivial to you. It is now trivial to me. There were no solid examples. So, after digging and search through Merb, Sinatra, and DataMapper posts and forums, I found nothing. Digging a little deeper into the Mustache code base and the Mustache::Sinatra module specifically, I found the following would work:
+
+%pre(lang="ruby")
+  %code
+    :plain
+      get '/tenants/:id' do |id|
+        @t = Tenant.get(id)
+        mustache :tenant_view, {}, :t => @t
+      end
+
+%p The Mustache view has access to @t. Now we are rolling. Check back for part two in a couple of days to read more.
