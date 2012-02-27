@@ -1,3 +1,11 @@
+.wrapper
+  position : relative
+  width    : 1058px
+  margin   : 0 auto
+
+.clear
+  clear: both
+
 .span-1, .span-2, .span-3, .span-4
   float        : left
   margin-right : 30px
@@ -5,21 +13,30 @@
 .last
   margin-right: 0
 
-.wrapper
-  position : relative
-  width    : 1058px
-  margin   : 0 auto
-
 .span-1
   width: 242px
 .span-2
   width: 514px
 .span-3
   width: 786px
+  &.width_include_gutter
+    width: 816px
+    margin-right: 0
+
 .span-4
   width: 1058px
   margin-right: 0
 
-.clear
-  clear: both
 
+@media only screen and (min-width: 768px) and (max-width: 1058px)
+  .wrapper
+    width: 760px
+
+  .span-1, .span-2, .span-3, .span-4
+    margin-right: 15px
+
+  .span-3
+    width: 100%
+
+  .last
+    margin-right: 0

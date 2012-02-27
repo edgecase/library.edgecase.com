@@ -173,14 +173,13 @@ body.page #what_it_is_all_about
   padding-top: 70px
 
   .meta
-    border-top  : 5px solid $ec-orange
-    padding-top : 12px
-
     a
       color: $ec-orange
 
     h1
       margin-bottom : 50px
+      border-top    : 5px solid $ec-orange
+      padding-top   : 12px
       color         : $ec-orange
       font-family   : $din-condensed
       font-size     : 4.0em
@@ -240,3 +239,43 @@ body.page #what_it_is_all_about
 
 footer
   background: #f2f2f2
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 1058px)
+  body.home header
+    height: 405px
+
+    .home_link
+      top: 40px
+
+    .span-2
+      top   : 155px
+      right : 0
+      width : 242px
+
+  .category_listing
+    .external
+      clear : both
+      width : 100%
+
+      a
+        float : left
+        width : 242px
+
+  .article
+    .meta
+      width: 100%
+      margin-right: 0
+
+      h1
+        float : left
+        width : 514px
+        margin-right: 15px
+
+      .meta_meta
+        float : right
+        width : 230px
+
+    .body
+      border-top: 0
