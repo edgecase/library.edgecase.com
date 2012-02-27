@@ -4,6 +4,10 @@
     - if @description
       %meta(name="description" content=@description)
     %title= @title
+    - if @page.metadata('title')
+      %meta(name='description' content="#{@page.metadata('title')}")
+    - if @page.metadata('keywords')
+      %meta(name='keywords' content="#{@page.metadata('keywords')}")
     %link(href="/css/master.css" media="screen" rel="stylesheet" type="text/css")
     %link(href="/articles.xml" rel="alternate" type="application/atom+xml")
     %script(type="text/javascript" src="http://use.typekit.com/vqn6wyg.js")
