@@ -3,7 +3,12 @@ Date: 29 Dec 2010
 Author: Leon Gersing
 Categories: cocoa
 Keywords: cocoa, ruby, xcode, obj-c
-Summary: I love Ruby but life is about balance. I like to balance my love for one language by taking a look at what else is out there. This is a series about that journey.
+
+:css
+  .RB_screenshot {
+    position: relative;
+    margin-left: -38px;
+  }
 
 %p I love Ruby but life is about balance. I like to balance my love for one language by taking a look at what else is out there. This is a series about that journey.
 %p First up, Objective-C. I recently ventured down the iOS path with a small application called Sparks - Campfire for iPad. Like other Ruby developers I was intimidated by the close relationship to iOS and the C language. After all, I haven't used a non-garbage collected language in over 10 years and even then it was easy to make a mistake.
@@ -18,7 +23,7 @@ Summary: I love Ruby but life is about balance. I like to balance my love for on
 %h2 Create the Project
 %p Open Xcode and select the "Split-View Application" and check the "Use Core Data" option. That's right, friends. We're going to write an iPad application. Something that will make writing a blog a little more pleasurable!
 %p
-  %img(src="/attachments/ruby-buddha-takes-a-holiday/new_project.png" alt="New project window")
+  %img.RB_screenshot(src="/attachments/ruby-buddha-takes-a-holiday/new_project.png" alt="New project window")
 %p In the generated project (kind of like running Rails is it not?) files you'll see a great many files. If you're familiar with Rails then some of the terms are going to look familiar but don't go thinking that just because Cocoa implements MVC (Model-View-Controller) that it's the same implementation that Rails uses. That said, let's define our object model with Core Data. Open the "blog.xcdatamodel" file to begin creating our object graph.
 
 %ul
@@ -28,7 +33,7 @@ Summary: I love Ruby but life is about balance. I like to balance my love for on
   %li Rename the "timeStamp" property to "createdAt"
 
 %p
-  %img(src="/attachments/ruby-buddha-takes-a-holiday/datamodel.png" alt="Data model window")
+  %img.RB_screenshot(src="/attachments/ruby-buddha-takes-a-holiday/datamodel.png" alt="Data model window")
 
 %p That's it for now. We'll be adding a few things in a bit, but for now, let's get this app up and running. Open the "DetailView.xib" file in Interface Builder.
 %p Delete the label that reads "Content goes here." and pull onto the design surface 3 controls:
