@@ -3,6 +3,7 @@ Date: 24 Feb 2012
 Author: Tony Schneider
 Categories: Ruby
 Keywords: rack, oauth, ruby, soa
+Source: https://github.com/tonywok/forcefield
 
 %p One of the biggest challenges in web development is knowing when to break your monolithic application into services. If you segment too soon, you risk introducing unnecessary complexity. On the other hand, if you wait too long, your application is prone to becoming an unmaintainable ball of mud. I obviously can't give you a concrete answer to this problem. However, if you decide to break your application into services, there is one thing that remains constant; securing your services' endpoints. I've found Rack middleware to be an excellent tool for the job.
 %p I had read quite a bit about Rack Middleware. I had seen a talk, watched a <a href="http://railscasts.com/episodes/151-rack-middleware">Railscast</a>, and often used other peoples' middlewares in my day-to-day Rails development. However, if you're anything like me, sometimes things don't fully sink in until you have an opportunity to get your hands dirty. Today we're going to do just that!
@@ -44,16 +45,16 @@ Keywords: rack, oauth, ruby, soa
 
 %p Edit your Gemfile as follows:
 
-%pre(lang="ruby")
-  %code
+%pre
+  %code(lang="ruby")
     :plain
       source "http://rubygems.org"
       gemspec
 
 %p Edit your gemspec to include the following dependencies:
 
-%pre(lang="ruby")
-  %code
+%pre
+  %code(lang="ruby")
     :plain
       gem.add_dependency 'rack', '~> 1.4'
       gem.add_dependency 'simple_oauth'
@@ -128,7 +129,7 @@ Keywords: rack, oauth, ruby, soa
 %pre
   %code
     :plain
-      GET /plans?type=secret&tags=killswitch HTTP/1.1
+      GET /plans?type=secret&amp;tags=killswitch HTTP/1.1
         Host: api.deathstar.com
         Authorization: OAuth realm="Endor",
           oauth_consumer_key="9djdj82h48djs9d2",

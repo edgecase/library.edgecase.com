@@ -5,6 +5,10 @@
       %h2= "<span>Posted</span> #{format_date(@page.date)}"
     - if @page.metadata('author')
       %h2= "<span>Author</span> #{@page.metadata('author')}"
+    - if @page.metadata('source')
+      %h2
+        %span Source
+        %a(href="#{@page.metadata('source')}" target="_blank") Github
 
   .body.span-3.last
     ~ @page.to_html(self)
