@@ -10,8 +10,8 @@ Keywords: ruby, rails, routes
 %p What does "Rack endpoint" actually mean? <a href="http://rack.rubyforge.org/">Rack</a> is a modular web server abstraction layer that unifies the API for the interaction of Ruby web application frameworks and application servers. It <a href="http://rack.rubyforge.org/doc/SPEC.html">specifies</a> a simple interface for Rack-compliant applications, and defines standard request and response objects and application server adapters to abstract dealing with the low level details of serving web requests. A Rack endpoint is just an application that adheres to the Rack spec.
 %p A compliant Rack application is a Ruby object that responds to a #call method that accepts a Hash instance containing environment info and returns a tuple of three pieces of information: the HTTP status code of the response, a Hash of response headers (such as the Content-Type header), and an Enumerable object containing the response body. An example:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       class MyRackApp
         def call(env)
@@ -26,8 +26,8 @@ Keywords: ruby, rails, routes
 
 %p The above class defines a #call instance method that returns an Array with the appropriate contents and is thus comformant with the Rack spec. It uses the params hash on the request object (which contains a union of GET and POST data) to echo a message back to the client. Because Ruby Proc objects respond to #call as well, a Proc can be used as a Rack endpoint easily.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Proc.new { |env|
         [
@@ -42,8 +42,8 @@ Keywords: ruby, rails, routes
 %h2 Back to routing
 %p I've found the router DSL in Rails 3 to be more pleasing than its Rails 2 predecessor, but the additional routing features really consititute improvement. A simple routes file in a Rails 3 app might look something like this:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
         resources :nights do
@@ -58,8 +58,8 @@ Keywords: ruby, rails, routes
 
 %p Most modern Rails apps strive to be RESTful and the above example reflects that. Rails 3's router retains the ability to create individual routes, however, via the <code>#match</code> method:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
         match '/movies/search', :to =&gt; "movies#title_search"
@@ -67,8 +67,8 @@ Keywords: ruby, rails, routes
 
 %p The above route declaration will match the path '/movies/search' to the <code>#title_search</code> action on MoviesController. We can use this same mechanism to point an incoming path to an arbitrary Rack object.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
         match '/movies/search', :to =&gt; proc { |env|
@@ -82,8 +82,8 @@ Keywords: ruby, rails, routes
 
 %p This is a neat but trivial example. Though there may be a case where this technique fits the bill, something perhaps more realistic would be to route the requests to a Sinatra application. We'll use a theoretical Sinatra application we've written to handle API-related requests.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
         match '/api', :to =&gt; ApiApp
@@ -93,8 +93,8 @@ Keywords: ruby, rails, routes
 %p But there's a problem with the above. It only routes a single, specific path to the embedded app. To get more realistic still, we would like to be able to route all requests rooted from a certain path to the Sinatra application, in this case everying under '/path/*'.
 %p To achieve this, we can rely on a few options the Rails 3 router provides. One is the ability to use the <code>#scope</code> method combined with optional path segments. The <code>#scope</code> method specifies a prefix for any <code>#match</code> calls made inside a block passed to it. Optional path segments work exactly as it would seem they do, providing a way of specifying portions of paths that may be omitted yet still match the declaration.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
 
@@ -107,8 +107,8 @@ Keywords: ruby, rails, routes
 %p In the above example, we scope the paths that are matched to begin with '/api'. The parantheses in the path string passed to #match indicate the contained segment is optional. The asterisk works much like it normally does in things such as regular expression, indicating it will match any string. Finally, 'path' would be the name of the key inside the Rails params hash that would yield the matched path string; since this route points to a Sinatra app and not a Rails controller, it won't be relevent here.
 %p As it turns out, there's an easier way to do the above. The #match method accepts a few useful parameters, one of which is :anchor. Passing :anchor => false as an option to the #match method allows the match to catch on any request that is prefixed with the given path. However, the following example is slightly different than the previous one.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
 
@@ -119,8 +119,8 @@ Keywords: ruby, rails, routes
 %p That's certainly more concise. The :anchor option is perhaps badly named given the context, but ultimately reflects the fact that the Rails 3 router is built on top of <a href="https://github.com/josh/rack-mount">rack-mount</a>.
 %p But as it turns out, Rails 3 provides an even more direct way of doing this. The router provides a #mount method intended exactly for the purpose we've been pursuing. It behaves exactly as the previous example.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       Movienight::Application.routes.draw do
         mount ApiApp, :at =&gt; '/api'
@@ -133,8 +133,8 @@ Keywords: ruby, rails, routes
 %p There is a practical difference between the first two approaches and the latter two, and it impacts the Rack (in this case, Sinatra) application that accompanies our Rails app. The key difference is that the latter two, either explicitly or implicitly, use the :anchor =&gt; false option. This option affects the way the <a href="https://github.com/josh/rack-mount">rack-mount</a> module constructs routes for the app; specifically, it affects the value of the <code>rack.mount.prefix</code> Rack environment variable.
 %p The bottom line is that for the first two approaches, we would want to set our Sinatra app similarly to this:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       require 'sinatra'
       class ApiApp &lt; Sinatra::Base
@@ -150,8 +150,8 @@ Keywords: ruby, rails, routes
 
 %p Whereas for the latter, we would match our paths without the 'api' prefix:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       require 'sinatra'
       class ApiApp &lt; Sinatra::Base

@@ -8,8 +8,8 @@ Keywords: ruby, rails, testing
 %p A couple of hours later you start getting email that your app isn't functioning properly in IE. Oops, someone forgot to remove their <code>console.debug()</code> calls...
 %p A similar situation has probably happened to most web developers at some point or other. It has bitten me more than once. The second time it happened I figured I should do something to prevent it from happening again. Sanity test to the rescue!
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       describe "Javascript files" do
         it "should not include console logging statements" do
@@ -23,8 +23,8 @@ Keywords: ruby, rails, testing
 %p A sanity test is a quick test designed to indicate whether further testing is possible or reasonable. I also like to apply the term to tests that ensure that common mistakes are avoided and to enforce agreed-upon standards. Let me give you an example of the latter.
 %p We've decided on this particular Rails project that we want to have indexes on all foreign key columns. This is something that Rails does not take care of for you, and it is also something that is extremely easy to forget when creating a migration. So we added a sanity test.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       describe "Foreign key indexes" do
         it "are present for all associations" do

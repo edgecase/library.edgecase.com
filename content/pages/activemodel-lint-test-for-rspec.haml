@@ -6,8 +6,8 @@ Keywords: ruby, rails, testing, rspec, activemodel
 
 %p ActiveModel comes with a set of Test::Unit tests that you can run against your model to ensure that it is compliant with the ActiveModel API. We're using RSpec in our project and didn't want to get Test::Unit setup just for these tests, so we found a way to run them with RSpec.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       # spec/support/active_model_lint.rb
       # adapted from rspec-rails:
@@ -30,8 +30,8 @@ Keywords: ruby, rails, testing, rspec, activemodel
 
 %p This defines a shared example and magically takes the lint tests and creates RSpec examples with them. The lint tests look for a model method, which we define to return the subject. Below is an example of how to use the shared example:
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       describe MyActiveModelClass do
         it_should_behave_like "ActiveModel"

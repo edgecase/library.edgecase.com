@@ -12,8 +12,8 @@ Keywords: ruby
 
 %p The answer lies in how the Ruby interpreter deals with string concatenation. Even though the result of the following 2 lines of code is the same, the approach that the Ruby interpreter takes is different.
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       "Hello" += ", World!"
 
@@ -24,8 +24,8 @@ Keywords: ruby
 %p Whereas the second string says: Take string 'Hello' and rather than create a new string, just add the contents of the string ', World!' to the end of it.
 %p This is not particularly interesting unless you're starting to see performance problems based on a choice that you've made to, say, use the += in a series of string manipulation routines. Let's take a look at the performance numbers of doing the exact same routines just substituting += for <<. Open up irb and paste the following 2 lines into the buffer. Then wait for the results... or cheat and continue reading!
 
-%pre
-  %code(lang="ruby")
+%pre(lang="ruby")
+  %code
     :plain
       require 'benchmark'
 
