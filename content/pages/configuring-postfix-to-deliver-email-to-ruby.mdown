@@ -203,4 +203,11 @@ write that it does have a lot of moving parts, and tricky nuances, but hopefully
 the minimum necessary to get this working. If your requirements are more complicated this should at least give you a good
 base to build upon for your needs.
 
+## Addendum
 
+It is worth noting that some respected colleagues that have attempted this sort of thing before advised going
+with an IMAP polling + CRON job setup for an easier implementation. The idea being to let postfix do what it is best
+at (delivering mail) as well as making things easier to test from the ruby side by pointing your dev environment to
+the remote mailbox. I was stubborn in this case and soldiered on the hard way. Looking back at the relative
+difficulty of getting the postfix based solution to work I would definitely give the other approach a second thought
+next time I need this sort of functionality. Ahh... hindsight.
