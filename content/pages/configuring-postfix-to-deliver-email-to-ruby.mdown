@@ -1,0 +1,206 @@
+Title: Configuring Postfix to Deliver Mail to Ruby
+Date: 27 February 2012
+Author: Scott Walker
+Categories: Ruby
+Keywords: postfix, ruby, email
+
+## The Problem:
+
+Have you ever had a problem where the solution seemed like a straight path from
+a --> b when in fact the path turned out to be full of blind corners, dangerous
+switchbacks, bramble bushes, and other generally not so nice stuff? That's been
+my experience recently with getting a postfix server installation configured to
+deliver emails to a ruby process, so I am documenting my painful journey so that
+others can benefit.
+
+As stated above the problem seemed simple enough:
+
+*Be able to receive emails and have them processed by a ruby process.*
+
+I'm not a unix/linux system admin, and have very limited experience in such matters. Google turned up
+a few results related to this problem all of which seemed straightforward, using
+the [postfix](http://www.postfix.org/) email server. Getting postfix installed
+was no problem using whatever package management solution on your distro of choice,
+so I won't document that process here.
+
+Once postfix was installed, getting it configured was where the problems began for me.
+The postfix website has extensive documentation covering all aspects of tweaking the
+system. The documentation is so extensive in fact it can be entirely overwhelming for
+someone who has never configured an email server before. Complicating matters further,
+the aforementioned posts I found through google were all slight variations on the
+configuration. I tried them all, and many more of my own, boiling them down to what I
+feel is a minimal set of instructions to accomplish the goal while keeping in line with
+the way I believe postfix wants things to work.
+
+## The Solution:
+
+Postfix has many configuration files for setting up its various parts but there are
+two main files that control the high-level functioning of postfix.
+
+### /etc/postfix/main.cf
+
+This file specifies the global configuration settings that control most of how
+postfix operates. The settings I tweaked here are as follows:
+
+    # This specifies the internet hostname of the mail system, it is used as a default
+    # for many other configuration values. It defaults to the fully-qualified domain name
+    # which may not be what you want, particularly if the system is hosted on EC2 as mine was.
+    # Therefore I changed this to the name I have specified in my DNS records.
+
+    myhostname = mail.mydomain.com
+
+
+    # The mydestination parameter specifies the list of domains that this
+    # machine considers itself the final destination for. This is to tell postfix to accept
+    # mail for several variations of the domain name.
+
+    mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+
+    # This specifies the list of "trusted" SMTP clients that postfix will relay email for.
+    # Setting this to host means that postfix will only relay emails generated from the machine
+    # that is running postfix.
+
+    mynetworks_style = host
+
+
+    # These two settings work in conjunction to tell postfix where to look for alias mappings
+    # for email addresses in the case where you may want to direct email sent to one user to
+    # another destination address. We'll explore this a bit more when we talk about the aliases
+    # file.
+
+    alias_maps = hash:/etc/aliases
+    alias_database = hash:/etc/aliases
+
+
+    # This tells postfix where to look for filters that apply to headers of incoming emails.
+    # Postfix supports two regex formats in this configuration file, PCRE and POSIX. It is
+    # important when specifying this setting to know which format you plan to use. For POSIX
+    # style regexes you want to prefix the file path with *regexp:* for PCRE you want *pcre:*.
+
+    header_checks = regexp:/etc/postfix/header_checks
+
+### /etc/postfix/master.cf
+
+This file specifies the list of daemon services that postfix uses to accomplish mail delivery.
+The format of this file is well documented [here](http://www.postfix.org/master.5.html), so I'm only
+going to explain why I chose the particular settings that I chose.
+The settings I tweaked here are as follows:
+
+    # Sets the name of the service in the postfix system to myservice
+    # It is a unix type service which should not be accessible outside this machine
+    # My service needs to run in a specific folder so it should not be CHROOTED to the postfix folder
+    # I'm running this on a micro EC2 instance so I set the max number of processes to run as 2
+    # so as not to overwhelm the machine
+    # It is an external command (ruby) that runs by recieving piped input on STDIN
+
+    # Flags
+    #  X - this service handles final delivery, don't attempt to do anything else with the message
+    #      if this service fails
+    #  h - convert parameters being passed to service to lower case
+    #  q - quote whitespace and other special characters in the command line string to run
+
+    # user      - which user should the command be run as, in this case I'm just using the ec2-user
+    #             account as my ruby code lives under this users account on the system
+    # directory - postfix will change into this directory before running the command
+    # argv      - the actual command I want to run, in this case I want to execute a ruby script.
+    #             By default the script will be passed the mail message on STDIN
+
+    myservice unix    -       n       n       -       2       pipe
+      flags=Xhq user=ec2-user directory=/home/ec2-user/myservice argv=/usr/local/bin/ruby myservice.rb
+
+### /etc/aliases
+
+By default postfix wants to deliver mail to actual user accounts on the system. If you want to have postfix
+accept delivery of messages to non-system accounts you can setup an alias in this file to have postfix redirect mail
+for non-system accounts to a specific system account. In my case I wanted to have a "virtual" account myservice@mydomain.com
+that would receive the incoming emails that I wanted to forward to my ruby process.
+
+    # Setup a redirect for any mails sent to myservice@mydomain.com to the ec2-user system account
+    # which is where my ruby code lives, and the user I specified in master.cf who will run the ruby
+    # process.
+
+    myservice:        ec2-user
+
+### /etc/postfix/header_checks
+
+This file specifies a list of filters on the incoming email message headers that can be used to take
+specific actions on emails such as reject them or direct them to a specific service such as spam filtering,
+or (in our case) the ruby service that we have created. You can filter on just about any header field, in our
+case we want to filter on the To: field to capture only emails sent to our myservice@mydomain account.
+
+    # Whereas the alias we created above allows postfix to accept the email for the virtual
+    # myservice@mydomain.account, this setting tells postfix to take any emails sent to that
+    # account and send them to the `myservice` postfix service that we defined above in the
+    # master.cf
+
+    /To:.*myservice@mydomain.com.*/ FILTER myservice:
+
+### myservice.rb
+
+This is our actual ruby service that is sitting under the myservice folder of the ec2-user account. It is
+what will actually read the incoming email and perform some action on it. The best gem I found for working
+with emails was the [mail gem](https://github.com/mikel/mail).
+
+    require 'rubygems'
+    require 'mail'
+
+    message = $stdin.read
+    mail = Mail.new(message)
+
+    # do some stuff with the email here
+
+### DNS Setup
+
+Lastly we need to make sure that we have the proper DNS records setup with our domain registrar to allow our
+(now properly configured) server to receive emails.
+
+<table>
+  <tr>
+    <td>Type</td>
+    <td>Name</td>
+    <td>TTL</td>
+    <td>Points To</td>
+  </tr>
+  <tr>
+    <td>A</td>
+    <td>mail.myservice.com</td>
+    <td>3600</td>
+    <td>xx.xx.xxx.xxx</td>
+  </tr>
+  <tr>
+    <td>MX</td>
+    <td>myservice.com</td>
+    <td>3600</td>
+    <td>mail.myservice.com</td>
+  </tr>
+  <tr>
+    <td>TXT</td>
+    <td>myservice.com</td>
+    <td>3600</td>
+    <td>v=spf1 mx~all</td>
+  </tr>
+</table>
+
+The A record above tells the DNS system that we have a server in our domain that should be resolvable by
+the name *mail.myservice.com* and what IP address the machine exists at.
+
+The MX (mail exchange) record is a special type of record required for telling the domain system which machine on our domain
+can receive email. In this case we point it to the name of our machine *mail.myservice.com* defined by our
+A record. Mail servers can be a tricky beast once you factor in things like blacklisting. A handy tool for
+diagnosing problems can be found here: [MXToolbox](http://www.mxtoolbox.com/).
+
+The TXT record is a special type of record known as an SPF (sender policy framework) record. These records are used to help
+prevent email spam by attempting to detect email spoofing. It works by verifying the IP address of the email sender to make
+sure the machine is authorized to send email for the domain. In this case, the *v=spf1 mx~all* says that any machine that has
+an MX record in our domain settings should be a trusted email sender for our domain.
+
+
+## The Wrapup
+
+If you've made it this far, you may be thinking that this seems like a big and complicated process. You'd be
+write that it does have a lot of moving parts, and tricky nuances, but hopefully I've broken things down to
+the minimum necessary to get this working. If your requirements are more complicated this should at least give you a good
+base to build upon for your needs.
+
+
