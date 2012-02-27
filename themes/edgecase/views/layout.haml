@@ -1,6 +1,8 @@
 !!!
 %html(lang="en")
   %head
+    %meta(http-equiv="X-UA-Compatible" content="chrome=1")
+    %meta(name="viewport" content="width=device-width")
     - if @description
       %meta(name="description" content=@description)
     %title= @title
@@ -25,8 +27,9 @@
           Need Development? Check us out!
         .span-2.last
           %h1 Recent Entries
+          - counter = 1
           - latest_articles(4).each do |article|
-            %a.span-1(href="#{article.abspath}")= article.title || article.heading
+            %a(href="#{article.abspath}" class="span-1 #{ counter%2==1 ? 'first' : 'last' }")= article.title || article.heading
 
     -##what_it_is_all_about
       .wrapper

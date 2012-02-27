@@ -3,9 +3,18 @@
 @import 'grid'
 @import 'pygments'
 
+@font-face
+  font-family : DINWebPro-Bold
+  src         : url("/edgecase/fonts/DINWebPro-Bold.eot")
+
+@font-face
+  font-family : DINWebPro-Bold
+  src         : url("/edgecase/fonts/DINWebPro-Bold.woff") format("woff")
+
 $ec-orange     : #ff722d
 $ec-grey-type  : #666
 $din           : 'ff-din-web-pro',    helvetica, arial, sans-serif
+$din-bold      : 'DINWebPro-Bold',    helvetica, arial, sans-serif
 $din-condensed : 'din-condensed-web', helvetica, arial, sans-serif
 $skolar        : 'skolar', georgia, serif
 $monospaced    : 'Andale Mono', 'Monaco', 'Menlo', 'Courier', monospace
@@ -49,7 +58,7 @@ body.home header
     left        : 0
     width       : 424px
     height      : 319px
-    background  : url(/edgecase/images/header_text.png)
+    background  : url(/edgecase/images/header_text.png) no-repeat
 
   .span-2
     position   : absolute
@@ -173,14 +182,13 @@ body.page #what_it_is_all_about
   padding-top: 70px
 
   .meta
-    border-top  : 5px solid $ec-orange
-    padding-top : 12px
-
     a
       color: $ec-orange
 
     h1
       margin-bottom : 50px
+      border-top    : 5px solid $ec-orange
+      padding-top   : 12px
       color         : $ec-orange
       font-family   : $din-condensed
       font-size     : 4.0em
@@ -208,7 +216,13 @@ body.page #what_it_is_all_about
 
     h2
       margin-bottom : 1.25em
+      color         : #444
       font-size     : 2.1em
+
+    h3
+      margin-bottom : 1.5em
+      color         : #444
+      font-size     : 1.8em
 
     p
       margin-bottom : 1.75em
@@ -227,16 +241,141 @@ body.page #what_it_is_all_about
     li
       margin-bottom : 0.5em
       font-size     : 1.6em
-      line-height   : 130%
+      line-height   : 156%
 
     pre
       margin-bottom : 30px
       font-family   : $monospaced
       font-size     : 1.4em
+      line-height   : 130%
 
     .highlight pre
       margin-bottom: 0
 
+    em
+      font-style: italic
+
+    strong, b
+      font-family: $din-bold
+
+    table
+      margin-bottom : 1.25em
+      font-size     : 1.6em
+
+      th
+        font-family: $din-bold
+
+      th, td
+        border-right: 1px solid #eee
+        border-bottom: 1px solid #ccc
+        padding: 8px
+
+        &:last-child
+          border-right: 0
+
+      tr:last-child td
+        border-bottom: 0
+
+
 
 footer
   background: #f2f2f2
+
+
+
+/* iPad */
+@media only screen and (min-width: 768px) and (max-width: 1058px)
+  body.home header
+    height: 405px
+
+    .home_link
+      top: 40px
+
+    .span-2
+      top   : 155px
+      right : 0
+      width : 242px
+
+  .category_listing
+    .external
+      clear : both
+      width : 100%
+
+      a
+        float : left
+        width : 242px
+
+  .article
+    .meta
+      width: 100%
+      margin-right: 0
+
+      h1
+        float : left
+        width : 514px
+        margin-right: 15px
+
+      .meta_meta
+        float : right
+        width : 230px
+
+    .body
+      border-top: 0
+
+
+/* iPhone */
+@media only screen and (min-width: 320px) and (max-width: 767px)
+  body.home header
+    height: 480px
+    background-size: 327px
+
+    .home_link
+      top: 20px
+      background-size: 300px
+
+    #need_development
+      top: auto
+      right: 0
+      bottom: 3px
+      left: 0
+      width: auto
+      background: #fff
+
+    .span-2
+      top: 270px
+      left : 0
+      right: 0
+      width: auto
+      border-top: 3px solid #fff
+      background: none
+
+  .category_listing
+    padding-top: 50px
+
+    ul
+      height: auto
+      padding-bottom: 40px
+
+  body.page header
+    background-size: 327px
+
+    #need_development
+      display: none
+
+  .article
+    padding-top: 30px
+
+    .meta
+      h1
+        border-top: 0
+        font-size: 3em
+
+    .body
+      ol, ul
+        margin-left: 2em
+
+      p, li
+        line-height: 125%
+
+      img
+        width: 100%

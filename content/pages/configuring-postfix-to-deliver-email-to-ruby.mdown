@@ -157,10 +157,10 @@ Lastly we need to make sure that we have the proper DNS records setup with our d
 
 <table>
   <tr>
-    <td>Type</td>
-    <td>Name</td>
-    <td>TTL</td>
-    <td>Points To</td>
+    <th>Type</th>
+    <th>Name</th>
+    <th>TTL</th>
+    <th>Points To</th>
   </tr>
   <tr>
     <td>A</td>

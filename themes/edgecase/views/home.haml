@@ -1,10 +1,8 @@
 //~ @page.to_html(self)
 .category_listing
-  .span-3
-    - counter = 1
+  .span-3.width_include_gutter
     - group_by_category.each do |k, v|
-      %div(class="span-1 #{ (counter%3==0) ? 'last' : nil }")
-        - counter = counter+1
+      .span-1
         %h1= k
         %ul
           - v.each do |p|
