@@ -90,7 +90,7 @@ and discuss project management issues (e.g. roles, meetings, tools, etc.)
 that will be relevant if the project moves forward beyond the inception.
 
 After three days of this, I guarantee you that everyone involved is
-exhausted but in possession of a *much* better understanding of the
+exhausted but in possession of a *much* better understanding of 
 what is to be built and how the project will be run.
 
 
@@ -98,13 +98,13 @@ what is to be built and how the project will be run.
 
 We're happy to run inceptions either in our office or at the client site.
 Which is best is largely a function of the client.  If they are capable
-of being present and focused on the incepetion, then holding it there 
+of being present and focused on the incepetion, then holding it at their location 
 may offer a tremendous opportunity for us to get visibility to the deployment
 environment and talk to real users who can verify or refute the
 characteristics baked into the persona exercise.
 
 However, not every client has the discipline to stay in the inception and block out the
-distractions while on site however.  In such cases, it's better to have the
+distractions while on site.  In such cases, it's better to have the
 inception back at our office where they can fully engage in the discussions.
 
 
@@ -113,15 +113,15 @@ inception back at our office where they can fully engage in the discussions.
 Getting the right people in the room for an inception is the single most
 important factor in determining whether or not it will succeed.  Miss out on
 an important stakeholder and you risk having wasted your time when that
-stakeholder later challenges decisions made in their absence.  Have too many
-people in the room and you make it too easy for people to mentally check out
+person later challenges decisions made in their absence.  Have too many
+people in the room and you make it too easy for someone to mentally check out
 and not fully contribute.
 
 We aim to have two people from EdgeCase - someone with project management skills
 and someone with development skills - and two to three key client stakeholders.
 The client participants need to:
 
-* have decision making authority for the project
+* have decision-making authority for the project
 * be intimately familiar with the needs of customers
 * be capable of giving the inception their full attention
 
@@ -129,13 +129,12 @@ The last of those is especially critical.  You'll find clients who believe
 themselves to be so busy that they can't possibly spend two to three days of
 uninterrupted time in the inception.  This is a red flag for the project.  A
 business owner who can't spend the time neccesary to start a project off on
-the right foot is likely to be one who won't be available to make the
-decisions necessary to keep the project running smoothly once it is
-running later.
+the right foot is likely to be one who has trouble committing time later when
+real-time decisions and customer feedback are required.
 
 ## The Learnings
 
-Here a couple of tips we've learned along the way to make your inceptions run
+Here a few tips we've learned along the way to make your inceptions run
 smoother:
 
 * Get people up and moving from time to time.  We structure several of the
@@ -146,8 +145,8 @@ smoother:
   flip charts, stickies, and a whiteboard extensively.  Before the start, we
   make sure we've got pens that are not out of ink and are visible from across
   the room.
-* Make sure the client has good visibility into the agenda.  Even though we
-  are intimitely familiar with the agenda and flow of the inception, for the
+* Make sure the client has good visibility into the agenda.  Even though you may be
+  intimitely familiar with the agenda and flow of an inception, for the
   client, this is likely a new process.  They want to know things like
   "when do we break for lunch?" and "how long does this activity last?".
 
@@ -160,7 +159,7 @@ makes a for a good inception is much like what makes for a good product
 idea - being humble and being prepared to constantly learn and improve.  To
 quote Francis Bacon:
 
-    If a man will begin with certainties, he shall end in doubts, but if he will
+    If a man begins with certainties, he shall end in doubts, but if he is
     content to begin with doubts, he shall end in certainties.
 
 We are not yet to the point where we can say we have "ended in certainties", but
@@ -182,4 +181,4 @@ resources to consult:
 * [Gamestorming](http://www.amazon.com/Gamestorming-Innovators-Rulebreakers-Changemakers-ebook/dp/B003XDUCLS)
   by Dave Gray, Sunni Brown, and James Macanufo is chock full of exercises you
   can use in your inceptions.  We're using many of them including 4C's, Elevator
-  Pitch, Pre-Mortem in ours.
+  Pitch, and Pre-Mortem in ours.
