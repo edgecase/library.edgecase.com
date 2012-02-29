@@ -4,8 +4,15 @@
     .meta_meta
       - if @page.date
         %h2= "<span>Posted</span> #{format_date(@page.date)}"
+
       - if @page.metadata('author')
-        %h2= "<span>Author</span> #{@page.metadata('author')}"
+        %h2
+          %span Author
+          - underscorized = @page.metadata('author').downcase.gsub(' ','_')
+          %a(href="http://edgecase.com/about##{underscorized}" target='_blank')
+            = @page.metadata('author')
+            %img(src="http://edgecase.com/images/team/#{underscorized}.jpg" style="width:50px; float: right;")
+
       - if @page.metadata('source')
         %h2
           %span Source
