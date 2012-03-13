@@ -13,6 +13,7 @@
 
 $ec-orange     : #ff722d
 $ec-grey-type  : #666
+$light-gray    : #f4f4f4
 $din           : 'ff-din-web-pro',    helvetica, arial, sans-serif
 $din-bold      : 'DINWebPro-Bold',    helvetica, arial, sans-serif
 $din-condensed : 'din-condensed-web', helvetica, arial, sans-serif
@@ -215,6 +216,8 @@ body.page #what_it_is_all_about
       color: $ec-orange
 
     h2
+      font-family   : "DINWebPro-bold"
+      padding-top   : 1.3em
       margin-bottom : 1.25em
       color         : #444
       font-size     : 2.1em
@@ -239,6 +242,7 @@ body.page #what_it_is_all_about
       list-style-type: decimal
 
     li
+      margin-left   : 2em
       margin-bottom : 0.5em
       font-size     : 1.6em
       line-height   : 156%
@@ -257,6 +261,10 @@ body.page #what_it_is_all_about
 
     strong, b
       font-family: $din-bold
+
+    .code
+      background-color: $light-gray
+      padding: 0 8px
 
     table
       margin-bottom : 1.25em
