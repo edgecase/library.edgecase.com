@@ -1,0 +1,121 @@
+Title: Stubbing OAuth with Capybara
+Date: 13 Mar 2012
+Author: Matt Darby
+Categories: Rails
+Keywords: ruby, oauth, capybara, webkit, stub, mock, rails, cucumber
+
+%h2 OAuth is great!
+
+%p
+  %a(href="http://oauth.net/") OAuth
+  is a great tool that allows users to login to your site with another site's credentials. If you have a Facebook, Twitter, Google, Github, Foursquare, etc account and the application supports OAuth, you have one less password and account to maintain. I use
+  %a(href="https://github.com/intridea/omniauth") Intridea's OmniAuth
+  every chance I can. It's a great project, easy to use, and supports
+  %a(href="https://github.com/intridea/omniauth/wiki/List-of-Strategies") tons of sites.
+
+%h2 But...
+
+%p One downside of using OAuth logins is when it comes to testing your application. Most applications scope content to the notion of the `current_user`, and therefore the tests expect that a User is mocked and "logged in". Usually this isn't much of an issue as most any authentication gem provides a way to programmatically log in a test User.
+
+%p OAuth on the other hand uses an external login provider to authenticate you. Awesome for applying a fast authentication layer to your app, but each time a User logs in it needs to reach across the intertubes, process your credentials, and return to your app. Far too slow of a process for testing (and your tests shouldn't reach into external systems if you can help it).
+
+%h2 So...
+
+%p The clear path here is to just take OAuth out of the equation while testing -- after all, we're testing your app, not the OAuth mechanism itself.
+
+%h2 The Process
+%p
+  To stub out the OAuth process and log in a test User, we set and use a cookie while in test mode to log in the User. There are existing solutions to this issue on the web, but we quickly found out that
+  %a(href="https://github.com/thoughtbot/capybara-webkit") Thoughtbot's Capybara-Webkit
+  uses a different cookie handling process than the standard
+  %a(href="https://github.com/jnicklas/capybara") Capybara
+  driver.
+
+  This is a problem as we use Capybara-Webkit for our
+  %a(href="http://cukes.info") Cucumber
+  scenarios that require javascript handling (which is pretty much all of them these days). Luckily though, Capybara exposes a `current_driver` method that allows us to differentiate the drivers at run time.
+
+
+
+%h3 features/steps/user_steps.rb
+%p
+  Create `features/steps/user_steps.rb` and add the following code. This Cucumber step will set up a "stub_user_id" cookie based on what Capybara driver we are using. You'll notice that Capybara-Webkit asks for a string in raw cookie format, whereas Capybara uses a hash structure for cookies.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      Given /^"([^"]*)" is logged in$/ do |email|
+        @current_user = Factory(:user, :email => email)
+        log_in
+      end
+
+      private
+
+      def log_in
+        if Capybara.current_driver == :webkit
+          page.driver.browser.set_cookie("stub_user_id=&#35;{@current_user.id}; path=/; domain=127.0.0.1")
+        else
+          cookie_jar = Capybara.current_session.driver.browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+          cookie_jar[:stub_user_id] = @current_user.id
+        end
+      end
+
+
+%h3 app/controllers/application_controller.rb
+%p
+  In `app/controllers/application_controller.rb` add the below code. If we're in the Rails testing environment it will check for the "stub_user_id" cookie and bypass OAuth and login the test User.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      before_filter :require_login
+      helper_method :current_user
+
+      private
+
+      if Rails.env.test?
+        prepend_before_filter :stub_current_user
+
+        def stub_current_user
+          session[:user_id] = cookies[:stub_user_id] if cookies[:stub_user_id]
+        end
+      end
+
+
+      def require_login
+        return true if request.fullpath =~ /auth/ #Allow omniauth to work
+
+        if session[:user_id].present?
+          current_user
+        else
+          redirect_to '/' unless request.fullpath == "/"
+        end
+      end
+
+      def current_user
+        @current_user ||= User.find(session[:user_id]) if session[:user_id]
+      end
+
+%h2 Usage
+%p
+  Usage is as simple as using the Cucumber step you created in the previous step.
+
+%pre(lang="ruby")
+  %code
+    :plain
+      Given "example@edgecase.com" is logged in
+
+%h2 Gem Specifics
+%p
+  As technology moves ever so fast, here are the gems that we've used to make this all work:
+  %ul
+    %li Rails 3.2
+    %li Capybara 1.1.2
+    %li Capybara-Webkit: 0.9.0
+    %li Cucumber 1.1.4
+    %li Cucumber-rails 1.2.1
+
+%h2 Wrapping Up
+%p
+  So there you have it; now you should be able to log in a test user with both Capybara and Capybara-Webkit in your Cucumber scenarios. This will go a long way towards speeding up your features! Happy Testing!
+
