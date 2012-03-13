@@ -1,0 +1,163 @@
+Title: Bootstrapping Rails
+Date: 12 Mar 2012
+Author: Aaron Christy
+Categories: Rails
+Keywords: twitter, bootstrap, customization, rails
+
+%h2 Pretty &amp; Shiny
+%p There is an enormous amount of excitement surrounding Twitter's <a href="http://http://twitter.github.com/bootstrap/">Bootstrap</a> presentational framework and for good reason.  Bootstrap makes it simple to create nice looking buttons, forms, typography, and overall site layout.  It also solves many cross browser complexities. . . and let's face it, makes mediocre designers look like they know what they are doing.
+
+
+%h2 Rails + Bootstrap ... Where's the Flexibility?
+%p Recently, I had a Rails 3 project and wanted all the beauty of Bootstrap 2, but I had several specific needs that had to be met.
+%ul
+  %li It must allow the flexibility to easily customize styles using built-in variables.  (This means I could not simply download and include the pre-generated Bootstrap css files.)
+  %li It must fit into the Rails asset pipeline.
+  %li It must use native Bootstrap <a href="http://lesscss.org/">LESS</a> CSS files. (Other parts of the site uses Sass, but I didn't want to rely on a Sass port of Bootstrap for fear of a third party repo becoming stale).
+  %li Any Boostrap customizations I implement must be compartmentalized and out of my way.
+
+
+%h2 1.  Modify Gemfile
+%p Add <a href="https://github.com/metaskills/less-rails-bootstrap">less-rails-bootstrap</a> to your gemfile and 'bundle' it up:
+%pre
+  %code(lang="ruby")
+    :plain
+      gem 'less-rails-bootstrap'
+%p The less-rails-bootstrap gem:
+%ul
+  %li works atop the <a href="https://github.com/metaskills/less-rails">less-rails</a> gem and provides a simple way to inject Bootstrap source files into the Rails asset pipeline
+  %li includes the Bootstrap css and js files, so there is no need to download them separately
+  %li namespaces the Bootstrap css and js files and provides useful hooks to conditionally include and override them when necessary
+  %li mirrors the Bootstrap version as close as possible (so, gem version 2.0.6 will contain Bootstrap 2.0.1)
+
+
+%h2 2. Create a Custom Loader File
+%p In order to perform your own Bootstrap customizations, you will need to have full control over the Boostrap load order.
+%p First, create a nice place to keep all your bootstrap customizations.
+%pre
+  %code(lang="ruby")
+    :plain
+      mkdir -p app/assets/stylesheets/bootstrap
+      touch app/assets/stylesheets/bootstrap/loader.css.less
+%p You will now have this structure:
+%pre
+  ├── app
+  │   ├── assets
+  │   │   └── stylesheets
+  │   │       ├── bootstrap
+  │   │       │   └── loader.css.less
+%p Modify your loader file: <span class="code">app/assets/stylesheets/bootstrap/loader.css.less</span>
+%pre
+  %code(lang="ruby")
+    :plain
+      @import "twitter/bootstrap/reset";
+      @import "twitter/bootstrap/variables";
+      @import "bootstrap/_variables";
+      @import "twitter/bootstrap/mixins";
+      @import "twitter/bootstrap/scaffolding";
+      @import "twitter/bootstrap/grid";
+      @import "twitter/bootstrap/layouts";
+      @import "twitter/bootstrap/type";
+      @import "twitter/bootstrap/code";
+      @import "twitter/bootstrap/forms";
+      @import "twitter/bootstrap/tables";
+      @import "twitter/bootstrap/sprites";
+      @import "twitter/bootstrap/dropdowns";
+      @import "twitter/bootstrap/wells";
+      @import "twitter/bootstrap/component-animations";
+      @import "twitter/bootstrap/close";
+      @import "twitter/bootstrap/buttons";
+      @import "twitter/bootstrap/button-groups";
+      @import "twitter/bootstrap/alerts";
+      @import "twitter/bootstrap/navs";
+      @import "twitter/bootstrap/navbar";
+      @import "twitter/bootstrap/breadcrumbs";
+      @import "twitter/bootstrap/pagination";
+      @import "twitter/bootstrap/pager";
+      @import "twitter/bootstrap/modals";
+      @import "twitter/bootstrap/tooltip";
+      @import "twitter/bootstrap/popovers";
+      @import "twitter/bootstrap/thumbnails";
+      @import "twitter/bootstrap/labels";
+      @import "twitter/bootstrap/progress-bars";
+      @import "twitter/bootstrap/accordion";
+      @import "twitter/bootstrap/carousel";
+      @import "twitter/bootstrap/hero-unit";
+      @import "twitter/bootstrap/utilities";
+
+
+%h2 3. Mix It Up
+%p Let's say you want all the tables in your layout to be bordered and alternate rows striped.  You could add the Bootstrap <span class="code">.table</span>, <span class="code">.table-bordered</span>, and <span class="code">.table-striped</span> css classes to every table in your app, but don't be ridiculous, there is a better way ... mixins!
+%p First, organize yourself. Create a <span class="code">tables.css.less</span> file:
+%pre
+  %code(lang="ruby")
+    :plain
+      touch app/assets/stylesheets/bootstrap/tables.css.less
+%p Edit your <span class="code">app/assets/stylesheets/bootstrap/tables.css.less</span> file like so:
+%pre
+  %code(lang="ruby")
+    :plain
+      @import "twitter/bootstrap/variables";
+      @import "twitter/bootstrap/mixins";
+      @import "twitter/bootstrap/tables";
+
+      table {
+        .table;
+        .table-bordered;
+        .table-striped;
+      }
+%p <strong>BOOM!</strong> You have forced every table tag to have default classes without changing any of your markup.  Just be sure you <span class="code">@import</span> any bootstrap modules that you will be overriding.  Since this is a mixin, I had to include the <span class="code">@import "twitter/bootstrap/mixins"</span>.
+
+
+
+%h2 4.  Rinse &amp; Repeat
+%p As a convention, I created a separate file named after each major Bootstrap module for anything I want to override.
+%p So in my project, I have all my customizations neatly organized and self-contained:
+%pre
+  ├── app
+  │   ├── assets
+  │   │   └── stylesheets
+  │   │       ├── bootstrap
+  │   │       │   └── ...
+  │   │       │   └── tables.css.less
+  │   │       │   └── forms.css.less
+  │   │       │   └── typography.css.less
+
+
+%h2 5.  Add Custom Variables
+%p Twitter Bootstrap comes with global custom LESS variables that can be modified in one place and applied everywhere.  
+%p Let's get organized and then change the form buttons to be green instead of the default blue.
+%pre
+  %code(lang="ruby")
+    :plain
+      touch app/assets/stylesheets/bootstrap/_variables.less
+%p Now your structure looks like so:
+%pre
+  ├── app
+  │   ├── assets
+  │   │   └── stylesheets
+  │   │       ├── bootstrap
+  │   │       │   ├── _variables.less
+  │   │       │   └── tables.css.less
+
+%p Use the <span class="code">app/assets/stylesheets/bootstrap/_variables.less</span> file to store all your variables:
+%pre
+  %code(lang="ruby")
+    :plain
+      @import "twitter/bootstrap/variables";
+      @primaryButtonBackground: #46a546;
+%p You can find the full list of Bootstrap variables <a href="http://twitter.github.com/bootstrap/download.html#variables">here</a> that can be overriden.
+
+
+%h2 6.  Add Bootstrap into the Asset Pipeline
+%p Finally, modify your base application stylesheet: <span class="code">app/assets/stylesheets/application.css</span>
+%pre
+  %code(lang="ruby")
+    :plain
+      /*
+       *= require 'bootstrap/loader'
+       *= require_self
+       *= require_tree .
+      */
+%p <strong>ZIPPY-ZOW!</strong>  That's all there is to it. . . happy bootstrapping!
+
