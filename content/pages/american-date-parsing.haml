@@ -1,0 +1,97 @@
+Title: American Date Parsing 
+Date: 14 Mar 2012
+Author: Aaron Christy
+Categories: Ruby
+Keywords: date, parse, parsing, format, calendar, active record
+
+%h2 Wave the flag!
+%p I recently ran into an interesting issue while working on a Rails 3, Ruby 1.9.3 project.
+%p My needs were simple:  I had a single text field that allowed the user to enter a date in MM/DD/YYYY format.  It was also bound to the jquery calendar plugin which was configured to prefill the textbox with the selected date in MM/DD/YYYY format.  However, every time a new record was created, this date would be written as null.
+%p When I forced the date to be YYYY/MM/DD format, it would save the date just fine. However, I didn't feel this date was as human readable. I also didn't want to continually wrestle with the jquery calendar <span class="code">altField</span>, <span class="code">altFormat</span> options just to work around the problem.
+%p If you also are fighting this issue, you can <a href="#tldr">skip to the end</a> to fix it.  It's fine, I won't be offended.
+
+%h2 Problem Example 
+%p Given that I have a Person:
+%pre
+  %code(lang="ruby")
+    :plain
+      ActiveRecord::Schema.define(:version => 20120218015632) do
+        create_table "people", :force => true do |t|
+          t.string "name"
+          t.date "birthdate"
+          t.datetime "created_at"
+          t.datetime "updated_at"
+        end
+      end
+%p And an empty ActiveRecord model:
+%pre
+  %code(lang="ruby")
+    :plain
+      class Person &lt; ActiveRecord::Base
+      end
+%p You find that you cannot even set the birthdate in MM/DD/YYYY format:
+%pre
+  %code
+    :plain
+      p = Person.create
+      p.birthdate = "04/29/2000"
+      =&gt; "04/29/2000"
+
+      p.birthdate
+      =&gt; nil                    #oh, noes!
+
+      p.birthdate = "2000-04-29"
+      =&gt; "2000-04-29"
+
+      p.birthdate
+      =&gt; "Sat, 29 Apr 2000"     #oh, my!
+
+
+%h2 Ruby, Ruby, Ruby
+%p The problem here is how Ruby 1.9 now handles Date parsing.
+%p Mats himself <a href="http://bugs.ruby-lang.org/issues/634#note-10">directly addresses</a> this change:
+%p.quote "dd/dd/dd" format itself is very culture dependent and ambiguous.  It is yy/mm/dd in Japan (and other countries), mm/dd/yy in USA, dd/mm/yy in European countries, right?  In some cases, you can tell them by accident, but we should not rely on luck in general cases.  I believe that is the reason parsing this format is disabled in 1.9.
+%p And just to solidify this problem:
+%pre
+  %code
+    :plain
+      irb: Date.parse('04/29/2000')
+      ArgumentError: invalid date
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/date.rb:1022:in `new_by_frags'
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/date.rb:1066:in `parse'
+        from (irb):1
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/bin/irb:16:in `<main>'
+
+      irb: Date.parse('2000/04/29')
+      ===&gt; Date: 2000-04-29 (4903327/2,0,2299161)
+
+
+%h2 Polish the Gem
+%p The solution for this problem is to correctly translate MM/DD/YYYY into proper <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO format</a> YYYY-MM-DD.
+%p Luckily, this work has already been done for you and wrapped up in the <a href="https://github.com/jeremyevans/ruby-american_date">american-date</a> gem.
+%pre
+  %code
+    :plain
+      ~ gem install american_date
+      Fetching: american_date-1.0.0.gem (100%)
+      Successfully installed american_date-1.0.0
+
+      irb: Date.parse('04/29/2000')
+      ArgumentError: invalid date
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/date.rb:1022:in `new_by_frags'
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/date.rb:1066:in `parse'
+        from (irb):1
+        from /Users/aaronchristy/.rvm/rubies/ruby-1.9.2-p290/bin/irb:16:in `<main>'
+
+      irb: require 'american_date'
+      ===> true
+
+      irb: Date.parse('04/29/2000')
+      ===> #Date: 2000-04-29 (4903327/2,0,2299161)
+
+
+%h2#tldr TL;DR
+%ul
+  %li Ruby 1.9.x no longer accepts dates in MM/DD/YYYY format
+  %li Include the <a href="https://github.com/jeremyevans/ruby-american_date">american-date</a> gem
+%p Now get back to doing something useful.
