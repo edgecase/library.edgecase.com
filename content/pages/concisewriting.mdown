@@ -1,0 +1,183 @@
+Title: Concise Writing
+Date: 27 Mar 2012
+Author: Monica McJunkin
+Categories: Communication
+Keywords: writing, editing
+
+
+For all you developers out there, here is a quick writing tip that will help you.  Upon finishing a report that you have been writing, or a set of findings for a client, review what you wrote and try to delete half of the words that you used.
+
+Hang on, let's do that again:
+
+I have a quick writing tip for you.  After you write a report or set of findings, go back and take out half of your words.
+
+OK, I'm kidding, I have no scientific basis for that number.  But I believe that most of us suffer from the 500 Word Essay Syndrome that we picked up in middle school.  Remember those?  Remember desperately trying to hit the word count?  Remember that your teacher did not call you out on all the fluff you inserted, so you did this again and again?
+
+Allow me to restate that advice again: You need to refactor your writing just as you would refactor your code to make it simpler, more efficient, and easier to understand. So after you write a report or set of findings, verify that every word in a sentence is adding value.  A concisely written sentence is easier to understand and makes a greater impact on the reader.
+
+Compare:
+*Many have made the wise observation that when a stone is in motion rolling down a hill or incline that that moving stone is not as likely to be covered all over with the kind of thick green moss that grows on stationary unmoving things and becomes a nuisance and suggests that those things haven’t moved in a long time and probably won’t move any time soon.*
+
+With:
+*A rolling stone gathers no moss.*
+
+You know you do it.  You know you write like the above example sometimes.  I know I do.
+
+## Making Every Word Count
+Pick something you've written recently and try the following tips:
+
+Start out by **identifying phrases that state obvious facts or provide excessive detail**. For example, instead of
+ 
+&nbsp;&nbsp;&nbsp;"I received your report and read it thoroughly," 
+
+write
+ 
+&nbsp;&nbsp;&nbsp;"I received your report."
+
+---
+Next, **remove unnecessary modfiers** that add no value to the sentence and lessen the impact of your statement.  These modifiers are those lovely essay-stretchers from middle school, such as:
+
+	kind of
+	sort of
+	type of
+	really
+	basically
+	for all intents and purposes
+	definitely
+	actually
+	generally
+	individual
+	specific
+	particular
+
+---	
+Now, **clean up redundancies**, like:
+		
+	past history
+ 	sudden crisis
+  	each individual
+  	various differences
+  	absolutely essential
+  	extra added
+  	accidental mistakes
+  	revert back
+  	end result
+  	large in size
+ 	pink in color
+	shiny in appearance
+ 	
+
+--- 
+Do you see any progress yet?  Next, **look for circumlocutions**, which means anything stated in a roundabout way.
+
+ 	 "At this point in time"      -> "now" or "currently"
+ 	 "Has the ability to" 	      -> "can"
+ 	 "The possibility exists for" -> "could" or "might"
+
+---
+See if you have any **unnecessary infinitive phrases**.  Infinitive phrase connect information in the sentence, and make up phrases that begin with 'in,' 'at,' 'to,' and 'with,' to name a few examples. Too many of them can be a drag on a sentence.	
+
+&nbsp;&nbsp;&nbsp;*"The clerk's job is to check all incoming mail and to record it,"*
+
+should be
+ 
+&nbsp;&nbsp;&nbsp;*"The clerk's job is to check and record all incoming mail."*
+
+---
+Are you using **passive verbs**?  If you have a sentence like, 
+
+&nbsp;&nbsp;&nbsp;*"The method will be tested by Paul,"* 
+
+consider rewording as 
+
+&nbsp;&nbsp;&nbsp;*"Paul will test the method."*
+
+---
+Finally, look at sentences that begin **"There is" or "It is"** carefully to ensure that they couldn't be stated more concisely.  What is the real subject?  This construction is called an 'expletive.'  You may want to use it occasionally to alter the sentence rhythm, but use it sparingly.
+
+&nbsp;&nbsp;&nbsp;*"There are five women interested in the course"*
+
+ could be 
+ 
+ *"Five women are interested in the course" or "Five women want to take the course."*
+
+
+## Paramedic Method
+
+You may want to try the paramedic method, which is attributed to Richard Lanham in *Revising Prose.* The paramedic method guides you in making your sentences more concise.
+
+1. Underline prepositional phrases. As mentioned above, prepositional phrases are connectors that might be eliminated or made more compact, so that they don't add dead weight to your sentence. 
+2. Circle all forms of the verb "to be."  These are indicators of passive verbs.
+3. Put a box around all nominalizations to identify the primary action.  Nominalizations are adjectives or verbs that have been changed into nouns.
+4. Change the action to a simple verb.
+5. Now that you have eliminated passive verbs, find the subject of the sentence and create a new base clause.
+6. Rewrite the sentence with the base clause near the beginning of the sentence, eliminating slow windups.
+7. While you're rewriting, eliminate unneccessary words.
+
+----
+**Take the following example:**   
+Brad and Amy and others will be included in and relied upon to provide direction and feedback on the user interface to the new configuration app. 
+
+
+
+<img src="/attachments/concisewriting1.jpg" alt="Illustration of method">
+
+</br>
+**New sentence:**   
+We will rely on Brad and Amy to provide direction and feedback on the user interface.
+
+----
+**And another:**   
+The learnings from this exercise were that we could improve our process for our customers during our meetings with them.
+
+<img src="/attachments/concisewriting2.jpg" alt="Illustration of method"> 
+</br>
+**New sentence:**    
+From this exercise, we learned that we could improve our process for our customers.
+
+## Watch for These Writing Smells
+
+We talk about project smells and code smells in our work; they are telltales that something isn't quite right, and we're not solving the correct problem.  The following things may be legitimate, but you would be wise to examine them:
+
+**Diagrams**: A picture paints a thousand words, but also ensure that you're not using diagrams because you haven't stated your thoughts clearly.
+
+**Redundancies**: Watch for redundant paragraphs or sentences that repeat themselves with new words, but are still trying to say the same thing.  This is not the same as an introduction or summary, but occurs when you are struggling to express yourself. 
+
+**Bulleted or numbered lists**: Lists often add clarity; make sure you're not using them to avoid writing clear sentences.
+
+**Slow wind-ups**: Watch for lengthy introductory paragraphs or phrases.  We often think these are graceful transitions, but they may just be obscuring your main points.
+
+**Parenthetical references**: If you find yourself relying on parenthetical references to fully explain a sentence, it may mean that the sentence needs to be rewritten instead.
+
+## Resources
+
+For more tips, refer to [Purdue University's Online Writing Lab.] (http://owl.english.purdue.edu/owl/resource/635/01/)
+
+Quiz time, courtesy of Capital Community College:   
+[Writing concisely](http://grammar.ccc.commnet.edu/grammar/quizzes/wordy_quiz.htm)   
+[Eliminating wordiness](http://grammar.ccc.commnet.edu/grammar/quizzes/nova/nova8.htm)
+
+
+## See you next time
+
+This completes my introduction to concise writing. Next time, I will share my rants on punctuation.  Until then, just keep those apostrophes out of plurals and I won't have to hunt you down.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+
+
